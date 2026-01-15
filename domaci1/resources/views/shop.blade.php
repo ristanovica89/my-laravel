@@ -21,20 +21,6 @@
       <button>Add to Cart</button>
     </div>
     @endforeach
-    <!-- <div class="article">
-      <h2 class="article-name">Super Gadget</h2>
-      <p class="article-code">code: SG123</p>
-      <span class="article-price">price: 50e</span><br>
-      <button>Add to Cart</button>
-    </div>
-    
-    
-    <div class="article">
-      <h2 class="article-name">Super Gadget</h2>
-      <p class="article-code">code: SG123</p>
-      <span class="article-price">price: 50e</span><br>
-      <button>Add to Cart</button>
-    </div> -->
     </div>
   </div>
 
