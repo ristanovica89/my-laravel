@@ -15,6 +15,12 @@ Route::get('/shop', [ProductController::class, 'index']);
 // Admin
 
 Route::view('/admin', 'pages-admin/dashboard-admin');
-Route::view('/admin/products', 'pages-admin/products-admin');
-Route::get('/admin/contacts', [ContactController::class, 'get_all_contacts_admin']);
+
+Route::get('/admin/products', [ProductController::class, 'getAllProductsForAdmin']);
+Route::post('/admin/products', [ProductController::class, 'storeNewProductAdmin']);
+Route::get('/admin/products/create', [ProductController::class, 'createNewProductAdmin']);
+
+
+Route::get('/admin/contacts', [ContactController::class, 'getAllContactsForAdmin']);
+
 Route::view('/admin/users', 'pages-admin/users-admin');

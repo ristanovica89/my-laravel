@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ContactController extends Controller
 {
 
-    public function get_all_contacts_admin(){
+    public function getAllContactsForAdmin(){
         $contacts = Contact::all();
 
         return view('pages-admin/contacts-admin', compact('contacts'));
