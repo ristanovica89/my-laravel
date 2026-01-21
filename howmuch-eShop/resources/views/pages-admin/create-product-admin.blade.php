@@ -55,7 +55,7 @@
       </div>
       <div class="mb-4">
         <label for="img" class="form-label">Product Image</label>
-        <input type="text" class="form-control bg-dark text-light border-secondary" id="img" name="img">
+        <input type="text" class="form-control bg-dark text-light border-secondary" id="image" name="image">
       </div>
 
       <div class="d-grid">
