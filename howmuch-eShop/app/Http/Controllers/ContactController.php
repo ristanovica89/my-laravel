@@ -18,4 +18,17 @@ class ContactController extends Controller
     {
         return view('contact');
     }
+
+    public function sendMessageFromContactPage(Request $request){
+
+        $validated = $request->validate([
+            'email' => 'required|email|max:64',
+            'subject' => 'required|string|min:5',
+            'message' => 'required|string|min:10'
+        ]);
+
+        Contact::create($validated);
+
+        return back()->with('success','Message has been send successfully');
+    }
 }

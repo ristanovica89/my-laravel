@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomePageController::class, 'index']);
 Route::view('/about', 'about');
+
 Route::get('/contact', [ContactController::class, 'index']);
+Route::post('/contact', [ContactController::class, 'sendMessageFromContactPage']);
+
 Route::get('/shop', [ProductController::class, 'index']);
 
 // Admin

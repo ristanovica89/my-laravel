@@ -1,22 +1,17 @@
-@extends('./layouts.layout-admin')
+@extends('layouts.layout-admin')
 
 @section('title','Admin - Contacts')
 
 @section('content')
 
-@if($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ $errors->first() }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
+@include('components.errors-flash-msg')
 
 <div class="card bg-dark text-light shadow">
   <div class="card-body">
 
     <h3 class="mb-4 text-center">Create <span class="text-warning">New Product</span></h3>
 
-    <form action="{{ url('/admin/products') }}" method="post">
+    <form action="/admin/products" method="post">
       @csrf
       <div class="mb-3">
         <label for="name" class="form-label">Product Name</label>

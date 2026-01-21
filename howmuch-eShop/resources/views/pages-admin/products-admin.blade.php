@@ -1,15 +1,10 @@
-@extends('./layouts.layout-admin')
+@extends('layouts.layout-admin')
 
 @section('title','Admin - Contacts')
 
 @section('content')
 
-@if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
+@include('components.success-flash-msg')
 
 <h1 class="text-center text-light mb-5">All <span class="text-warning">Products</span></h1>
 @include('components-admin.create-new-product-btn')
