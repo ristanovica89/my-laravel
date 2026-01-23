@@ -11,30 +11,37 @@
 
 <div class="table-responsive">
     <table class="table table-hover table-dark">
-        <thead>
+        <thead class="table-secondary text-dark">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Price (RSD)</th>
                 <th scope="col">Created at</th>
                 <th scope="col">Updated at</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
-          {{ $row = 0; }}
-          @foreach($products as $product)
+            {{ $row = 0; }}
+            @foreach($products as $product)
             <tr>
                 <th scope="row">{{ ++$row; }}</th>
-                <td>{{ $product->id }}</td>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->amount }}</td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->created_at }}</td>
                 <td>{{ $product->updated_at }}</td>
+                <td>
+                    <a href="/admin/product-delete/{{ $product->id }}" class="btn btn-sm btn-outline-danger me-1" title="Delete Product">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                    <a href="#" class="btn btn-sm btn-outline-primary" title="Update Product">
+                        <i class="bi bi-pencil-square"></i> Update
+                    </a>
+                </td>
             </tr>
-          @endforeach
+            @endforeach
         </tbody>
     </table>
 </div>

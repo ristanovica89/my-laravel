@@ -1,7 +1,7 @@
 @include('components.errors-flash-msg')
 @include('components.success-flash-msg')
 
-<form class="col-8 offset-2 mt-4" action="/contact" method="post">
+<form class="col mt-4" action="{{ route('contact.sendMessage') }}" method="post">
   @csrf
   <div class="mb-3">
     <label for="contact-email" class="form-label">Email address</label>

@@ -31,4 +31,12 @@ class ContactController extends Controller
 
         return back()->with('success','Message has been send successfully');
     }
+
+    public function deleteContactById($id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+
+        return back()->with('success', 'Contact has been successfully deleted');
+    }
 }

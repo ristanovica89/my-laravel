@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-
+        
         return view('shop', compact('products'));
     }
 
@@ -44,5 +44,12 @@ class ProductController extends Controller
 
         return redirect('/admin/products')->with('success', 'Product has been successfully stored');
         
+    }
+
+    public function deleteProductById($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return back()->with('success', 'Product has been successfully deleted');
     }
 }
