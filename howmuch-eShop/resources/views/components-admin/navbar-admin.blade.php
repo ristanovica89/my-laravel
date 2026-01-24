@@ -10,10 +10,10 @@
           <a class="nav-link" href="/admin">Admin</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin/products">Products</a>
+          <a class="nav-link" href="{{ route('products.getAllProductsForAdmin') }}">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin/contacts">Contacts</a>
+          <a class="nav-link" href="{{ route('contacts.getAllContactsForAdmin') }}">Contacts</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/admin/users">Users</a>

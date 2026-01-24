@@ -18,17 +18,18 @@
     </tr>
   </thead>
   <tbody>
+    {{ $row = 0; }}
     @foreach( $contacts as $contact)
     <tr>
-      <th scope="row">{{ $contact->id }}</th>
+      <th scope="row">{{ ++$row; }}</th>
       <td>{{ $contact->email }}</td>
       <td>{{ $contact->subject }}</td>
       <td>{{ $contact->message }}</td>
       <td>
-        <a href="/admin/contact-delete/{{ $contact->id }}" class="btn btn-sm btn-outline-danger me-1" title="Delete Product">
+        <a href="{{ route('contact.deleteContactById', $contact) }}" class="btn btn-sm btn-outline-danger me-1" title="Delete Contact">
           <i class="bi bi-trash"></i> Delete
         </a>
-        <a href="#" class="btn btn-sm btn-outline-primary" title="Update Product">
+        <a href="{{ route('contacts.getContactForUpdateById', $contact) }}" class="btn btn-sm btn-outline-primary" title="Update Contact">
           <i class="bi bi-pencil-square"></i> Update
         </a>
       </td>

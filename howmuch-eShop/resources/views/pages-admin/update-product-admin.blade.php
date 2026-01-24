@@ -1,6 +1,6 @@
 @extends('layouts.layout-admin')
 
-@section('title','Admin - Create Product')
+@section('title','Admin - Update Product')
 
 @section('content')
 
@@ -9,9 +9,9 @@
 <div class="card bg-dark text-light shadow">
   <div class="card-body">
 
-    <h3 class="mb-4 text-center">Create <span class="text-warning">New Product</span></h3>
+    <h3 class="mb-4 text-center">Update <span class="text-warning"> Product</span></h3>
 
-    <form action="{{ route('products.storeNewProductAdmin') }}" method="post">
+    <form action="{{ route('products.updateProductById', $product) }}" method="post">
       @csrf
       <div class="mb-3">
         <label for="name" class="form-label">Product Name</label>
@@ -21,7 +21,7 @@
           id="name"
           name="name"
           placeholder="Enter product name"
-          value="{{ old('name') }}"
+          value="{{ $product->name }}"
           required>
       </div>
       <div class="mb-3">
@@ -32,7 +32,7 @@
           name="description"
           rows="4"
           placeholder="Enter product description"
-          required>{{ old('description') }}</textarea>
+          required>{{ $product->description }}</textarea>
       </div>
 
       <div class="mb-3">
@@ -42,23 +42,23 @@
           class="form-control bg-dark text-light border-secondary"
           id="amount"
           name="amount"
-          value="{{ old('amount') }}"
+          value="{{ $product->amount }}"
           placeholder="Enter amount"
           required>
       </div>
 
       <div class="mb-3">
         <label for="price" class="form-label">Price</label>
-        <input type="number" class="form-control bg-dark text-light border-secondary" id="price" name="price" step="0.01" value="{{ old('price') }}" placeholder="Enter product price" required>
+        <input type="number" class="form-control bg-dark text-light border-secondary" id="price" name="price" step="0.01" value="{{ $product->price }}" placeholder="Enter product price" required>
       </div>
       <div class="mb-4">
         <label for="img" class="form-label">Product Image</label>
-        <input type="text" class="form-control bg-dark text-light border-secondary" id="image" name="image" value="{{ old('image') }}" placeholder="Enter product image">
+        <input type="text" class="form-control bg-dark text-light border-secondary" id="image" name="image" value="{{ $product->image }}" placeholder="Enter product image">
       </div>
 
       <div class="d-grid">
         <button type="submit" class="btn btn-success btn-lg">
-          Save Product
+          Update Product
         </button>
       </div>
 

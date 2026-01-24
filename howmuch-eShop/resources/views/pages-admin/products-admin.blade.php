@@ -1,6 +1,6 @@
 @extends('layouts.layout-admin')
 
-@section('title','Admin - Contacts')
+@section('title','Admin - Products')
 
 @section('content')
 
@@ -33,10 +33,10 @@
                 <td>{{ $product->created_at }}</td>
                 <td>{{ $product->updated_at }}</td>
                 <td>
-                    <a href="/admin/product-delete/{{ $product->id }}" class="btn btn-sm btn-outline-danger me-1" title="Delete Product">
+                    <a href="{{ route('product.deleteProductById', $product) }}" class="btn btn-sm btn-outline-danger me-1" title="Delete Product">
                         <i class="bi bi-trash"></i> Delete
                     </a>
-                    <a href="#" class="btn btn-sm btn-outline-primary" title="Update Product">
+                    <a href="{{ route('products.getProductForUpdateById', $product) }}" class="btn btn-sm btn-outline-primary" title="Update Product">
                         <i class="bi bi-pencil-square"></i> Update
                     </a>
                 </td>
