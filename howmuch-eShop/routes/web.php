@@ -44,7 +44,7 @@ Route::post('/admin/product-create', [ProductController::class, 'storeNewProduct
 Route::post('/admin/product-update/{product}', [ProductController::class, 'updateProductById'])
   ->name('products.updateProductById');
 
-Route::get('/admin/products/update/{product}', [ProductController::class, 'getProductForUpdateById'])
+Route::get('/admin/product-update/{product}', [ProductController::class, 'getProductForUpdateById'])
   ->name('products.getProductForUpdateById');
 
 Route::view('/admin/products/create', 'pages-admin/create-product-admin');
@@ -63,7 +63,7 @@ Route::get('/admin/contact-delete/{contact}', [ContactController::class, 'delete
 
 // Update Contact
 
-Route::get('/admin/contact/update/{contact}', [ContactController::class, 'getContactForUpdateById'])
+Route::get('/admin/contact-update/{contact}', [ContactController::class, 'getContactForUpdateById'])
   ->name('contacts.getContactForUpdateById');
 
 Route::post('/admin/contact-update/{contact}', [ContactController::class, 'updateContactById'])
