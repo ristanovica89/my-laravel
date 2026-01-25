@@ -1,8 +1,14 @@
 @extends('layouts.layout')
 
-@section('title','DashboardPage')
+@section('title','HowMuch-eShop')
 
 @section('content')
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 
 <h1 class="text-center mb-5">Welcome To <span class="text-success">HowMuch-eShop</span></h1>
 
