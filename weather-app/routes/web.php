@@ -1,27 +1,33 @@
 <?php
 
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\CheckAdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+// USER
+Route::middleware('auth')->group(function () {
+    Route::get('/', [CityController::class, 'index']);
 });
 
-Route::get('/admin', function () {
-    return view('admin-panel');
+// ADMIN
+
+Route::middleware(['auth', CheckAdminMiddleware::class])
+    ->prefix('admin')
+    ->group(function () {
+        Route::get('/', [CityController::class, 'adminIndex'])
+            ->name('admin-panel');
+        Route::view('/city-add', 'admin-pages.add-city-form')
+            ->name('add-city-form');
+        Route::post('/city-add', [CityController::class, 'addCity'])
+            ->name('add-city');
+        Route::get('/city-delete/{city}', [CityController::class, 'deleteCityById'])
+            ->name('delete-city');
+        Route::get('/city-update/{city}', [CityController::class, 'updateCityForm'])
+            ->name('update-city-form');
+        Route::post('/city-update/{city}', [CityController::class, 'updateCityById'])
+            ->name('update-city');
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -37,4 +43,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -7,8 +7,7 @@
         <!-- Navigation Links -->
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline space-x-4">
-            <a href="/admin" aria-current="page" class="rounded-md bg-yellow-500 px-3 py-2 text-sm font-medium text-gray-800">Weather Application - Admin Panel</a>
-            <a href="/admin/contacts" class="rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-yellow-300 hover:text-gray-900">Contacts</a>
+            <a href="{{ route('admin-panel') }}" aria-current="page" class="rounded-md bg-yellow-500 px-3 py-2 text-sm font-medium text-gray-800">Weather Application - Admin Panel</a>
             <a href="/admin/users" class="rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-yellow-300 hover:text-gray-900">Users</a>
           </div>
         </div>
@@ -17,12 +16,18 @@
       <!-- Right: User + Logout -->
       <div class="hidden md:flex items-center space-x-4">
         <!-- User Text -->
-        <span class="text-gray-800 font-medium px-3 py-2 bg-yellow-300 rounded-md">Admin</span>
+        <span class="text-gray-800 font-medium px-3 py-2 bg-yellow-300 rounded-md">
+          {{auth()->user()->name}}
+        </span>
         <!-- Logout Button -->
-        <a href="/logout" class="px-3 py-2 text-sm font-medium text-gray-800 rounded-md 
-           hover:text-gray-900 focus:outline-2 focus:outline-offset-2 focus:outline-gray-900">
-          Logout
-        </a>
+        <form method="POST" action="{{ route('logout') }}" class="inline">
+          @csrf
+          <button type="submit"
+            class="px-3 py-2 text-sm font-medium text-gray-800 rounded-md 
+               hover:text-gray-900 focus:outline-2 focus:outline-offset-2 focus:outline-gray-900">
+            Logout
+          </button>
+        </form>
       </div>
 
       <!-- Mobile menu button -->
@@ -45,11 +50,14 @@
   <el-disclosure id="mobile-menu" hidden class="block md:hidden">
     <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
       <a href="/admin" aria-current="page" class="block rounded-md bg-yellow-500 px-3 py-2 text-base font-medium text-gray-800">Weather Application - Admin Panel</a>
-      <a href="/admin/contacts" class="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-yellow-300 hover:text-gray-900">Contacts</a>
       <a href="/admin/users" class="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-yellow-300 hover:text-gray-900">Users</a>
-      <a href="/logout" class="block px-3 py-2 text-base font-medium text-gray-800 rounded-md hover:text-gray-900">
-        Logout
-      </a>
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit"
+          class="block px-3 py-2 text-base font-medium text-gray-800 rounded-md hover:text-gray-900">
+          Logout
+        </button>
+      </form>
     </div>
   </el-disclosure>
 </nav>

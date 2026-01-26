@@ -9,8 +9,8 @@ class City extends Model
     protected $fillable = [
         'name',
         'country',
-        'timeZone',
+        'time_zone',
         'temperature',
-        'weatherCondition',
+        'weather_condition',
     ];
 }

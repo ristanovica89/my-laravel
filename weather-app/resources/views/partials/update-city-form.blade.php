@@ -1,6 +1,6 @@
 @include('partials.errors')
 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-  <form action="{{ route('add-city') }}" method="post" 
+  <form action="{{ route('update-city' , $city) }}" method="post" 
     class="w-full bg-yellow-400 rounded-lg text-gray-900 space-y-6 p-6 shadow-lg">
     @csrf
     <h2 class="text-2xl font-semibold text-gray-800">Location Settings</h2>
@@ -14,7 +14,7 @@
         name="name" 
         id="city" 
         placeholder="City" 
-        value="{{ old('name') }}"
+        value="{{ $city->name }}"
         class="mt-1 block w-full rounded-md bg-yellow-100 px-3 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
       >
     </div>
@@ -27,7 +27,7 @@
         name="country" 
         id="country" 
         placeholder="Country" 
-        value="{{ old('country') }}"
+        value="{{ $city->country }}"
         class="mt-1 block w-full rounded-md bg-yellow-100 px-3 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
       >
     </div>
@@ -40,7 +40,7 @@
         name="time_zone" 
         id="timezone" 
         placeholder="Europe/Belgrade" 
-        value="{{ old('time_zone') }}"
+        value="{{ $city->time_zone }}"
         class="mt-1 block w-full rounded-md bg-yellow-100 px-3 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
       >
     </div>
@@ -53,7 +53,7 @@
         name="temperature" 
         id="temperature" 
         placeholder="Temperature" 
-        value="{{ old('temperature') }}"
+        value="{{ $city->temperature }}"
         class="mt-1 block w-full rounded-md bg-yellow-100 px-3 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
       >
     </div>
@@ -66,15 +66,14 @@
         name="weather_condition" 
         id="weather" 
         placeholder="Weather description" 
-        value="{{ old('weather_condition') }}"
+        value="{{ $city->weather_condition }}"
         class="mt-1 block w-full rounded-md bg-yellow-100 px-3 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
       >
     </div>
 
     <!-- Buttons -->
     <div class="flex justify-end gap-4">
-      <button type="reset" class="px-4 py-2 bg-gray-800 rounded-md text-white hover:bg-gray-700">Reset</button>
-      <button type="submit" class="px-4 py-2 bg-green-600 rounded-md text-white hover:bg-green-700">Save</button>
+      <button type="submit" class="px-4 py-2 bg-green-600 rounded-md text-white hover:bg-green-700">Update</button>
     </div>
   </form>
 </div>

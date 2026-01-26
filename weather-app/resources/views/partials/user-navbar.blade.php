@@ -4,16 +4,12 @@
 
       <!-- Left: Logo + Navigation Links -->
       <div class="flex items-center">
-        <!-- Logo -->
-        <!-- <div class="shrink-0">
-          <img src="{{ asset('images/weather-app-logo.png') }}" alt="Avatar" class="size-8">
-        </div> -->
+
         <!-- Navigation Links -->
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline space-x-4">
             <a href="/" aria-current="page" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Weather Application</a>
             <a href="/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Home</a>
-            <a href="/contact" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Contact</a>
           </div>
         </div>
       </div>
@@ -21,12 +17,18 @@
       <!-- Right: User + Logout -->
       <div class="hidden md:flex items-center space-x-4">
         <!-- User Text -->
-        <span class="text-white font-medium px-3 py-2 bg-gray-700 rounded-md">User</span>
+        <span class="text-white font-medium px-3 py-2 bg-gray-700 rounded-md">
+          {{auth()->user()->name}}
+        </span>
         <!-- Logout Button -->
-        <a href="/logout" class="px-3 py-2 text-sm font-medium text-green-500 rounded-md 
-   hover:text-green-400 focus:outline-2 focus:outline-offset-2 focus:outline-green-400">
-          Logout
-        </a>
+        <form method="POST" action="{{ route('logout') }}">
+          @csrf
+          <button type="submit"
+            class="px-3 py-2 text-sm font-medium text-green-500 rounded-md 
+               hover:text-green-400 focus:outline-2 focus:outline-offset-2 focus:outline-green-400">
+            Logout
+          </button>
+        </form>
       </div>
 
       <!-- Mobile menu button -->
@@ -50,11 +52,14 @@
     <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
       <a href="/" aria-current="page" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Weather Application</a>
       <a href="/" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Home</a>
-      <a href="/contact" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Contact</a>
-      <a href="/logout" class="px-3 py-2 text-sm font-medium text-green-500 rounded-md 
-   hover:text-green-400 focus:outline-2 focus:outline-offset-2 focus:outline-green-400">
-        Logout
-      </a>
+      <form method="POST" action="{{ route('logout') }}" class="inline">
+        @csrf
+        <button type="submit"
+          class="px-3 py-2 text-sm font-medium text-green-500 rounded-md 
+               hover:text-green-400 focus:outline-2 focus:outline-offset-2 focus:outline-green-400">
+          Logout
+        </button>
+      </form>
     </div>
   </el-disclosure>
 </nav>
