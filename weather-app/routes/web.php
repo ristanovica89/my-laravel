@@ -21,7 +21,7 @@ Route::middleware(['auth', CheckAdminMiddleware::class])
             ->name('add-city-form');
         Route::post('/city-add', [CityController::class, 'addCity'])
             ->name('add-city');
-        Route::get('/city-delete/{city}', [CityController::class, 'deleteCityById'])
+        Route::post('/city-delete/{city}', [CityController::class, 'deleteCityById'])
             ->name('delete-city');
         Route::get('/city-update/{city}', [CityController::class, 'updateCityForm'])
             ->name('update-city-form');
