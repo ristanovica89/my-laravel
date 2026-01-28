@@ -10,7 +10,13 @@ class City extends Model
         'name',
         'country',
         'time_zone',
-        'temperature',
-        'weather_condition',
     ];
+
+    public function weather(){
+        return $this->hasOne(Weather::class);
+    }
+
+    public function forecasts(){
+        return $this->hasMany(Forecast::class);
+    }
 }

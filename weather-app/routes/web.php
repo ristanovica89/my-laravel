@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 // USER
 Route::middleware('auth')->group(function () {
     Route::get('/', [CityController::class, 'index']);
+    Route::get('/forecast/{city}', [CityController::class, 'forecast'])
+        ->name('forecast');
 });
 
 // ADMIN
