@@ -4,7 +4,7 @@
     class="w-full bg-yellow-400 rounded-lg text-gray-900 space-y-6 p-6 shadow-lg">
     @csrf
     <h2 class="text-2xl font-semibold text-gray-800">Location Settings</h2>
-    <p class="text-gray-700 text-sm">Enter your city, country, timezone, temperature, and weather condition.</p>
+    <p class="text-gray-700 text-sm">Enter your city, country and timezone.</p>
 
     <!-- City Name -->
     <div>
@@ -41,32 +41,6 @@
         id="timezone" 
         placeholder="Europe/Belgrade" 
         value="{{ old('time_zone') }}"
-        class="mt-1 block w-full rounded-md bg-yellow-100 px-3 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-      >
-    </div>
-
-    <!-- Temperature -->
-    <div>
-      <label for="temperature" class="block text-sm font-medium text-gray-800">Temperature (°C)</label>
-      <input 
-        type="number" 
-        name="temperature" 
-        id="temperature" 
-        placeholder="Temperature" 
-        value="{{ old('temperature') }}"
-        class="mt-1 block w-full rounded-md bg-yellow-100 px-3 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-      >
-    </div>
-
-    <!-- Weather Condition -->
-    <div>
-      <label for="weather" class="block text-sm font-medium text-gray-800">Weather Condition</label>
-      <input 
-        type="text" 
-        name="weather_condition" 
-        id="weather" 
-        placeholder="Weather description" 
-        value="{{ old('weather_condition') }}"
         class="mt-1 block w-full rounded-md bg-yellow-100 px-3 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
       >
     </div>

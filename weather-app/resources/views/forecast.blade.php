@@ -14,15 +14,9 @@
   </div>
 </div>
 @endif
-@php
-    $i = 0;
-@endphp
 <div class="flex-1 flex flex-wrap justify-center gap-4 p-6">
-@foreach($cityForecast as $city)
+@foreach($cityForecasts as $forecast)
   @include('partials.forecast-card')
-@php
-    $i++;
-@endphp
 @endforeach
 </div>
 

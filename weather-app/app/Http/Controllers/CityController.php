@@ -28,11 +28,9 @@ class CityController extends Controller
     public function addCity(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:64',
+            'name' => 'required|string|max:64|unique:cities',
             'country' => 'required|string|max:64',
             'time_zone' => 'required|string',
-            'temperature' => 'required|integer',
-            'weather_condition' => 'required|string|max:64',
         ]);
 
         City::create($validated);
@@ -55,11 +53,9 @@ class CityController extends Controller
     public function updateCityById(Request $request, City $city)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:64',
+            'name' => 'required|string|max:64|unique:cities,name,' . $city->id,
             'country' => 'required|string|max:64',
             'time_zone' => 'required|string',
-            'temperature' => 'required|integer',
-            'weather_condition' => 'required|string|max:64',
         ]);
 
         $city->update($validated);
@@ -67,28 +63,48 @@ class CityController extends Controller
         return redirect(route('admin-panel'))->with('success', 'City has been successfully updated.');
     }
 
-    public function forecast($city)
+    public function forecast(City $city)
     {
-        $forecast = [
-            'Belgrade' => [13,16,11,9,7],
-            'Novi Sad' => [10,6,1,-2,0],
-        ];
 
-        $cityModel = City::where('name',ucwords($city))->first();
+        // if (! $city) {
+        //     return back()->with('message', 'There is no city with that name.');
+        // }
+        //-> kada se u url ukuca nepostojeci id -> app baca 404, ni ne dodje do kontrolera
 
-        if($cityModel === null){
-            return back()->with('message','There is no city with that name.');
+        if (! $city->forecasts()->exists()) {
+            return back()->with('message', 'No forecast for ' . $city->name);
         }
 
-        if(!array_key_exists($cityModel->name, $forecast)){
-            return back()->with('message','No forcast for ' . $cityModel->name);
+        $name = $city->name;
+        $country = $city->country;
+        $emojis = $this->getEmojis();
+        $cityForecasts = $city->forecasts;
+
+        return view('forecast', compact('cityForecasts', 'name', 'country', 'emojis'));
+    }
+
+    public function forecastDummy($city)
+    {
+        $forecast = [
+            'Belgrade' => [13, 16, 11, 9, 7],
+            'Novi Sad' => [10, 6, 1, -2, 0],
+        ];
+
+        $cityModel = City::where('name', ucwords($city))->first();
+
+        if ($cityModel === null) {
+            return back()->with('message', 'There is no city with that name.');
+        }
+
+        if (!array_key_exists($cityModel->name, $forecast)) {
+            return back()->with('message', 'No weather forecast for ' . $cityModel->name);
         }
 
         $name = $cityModel->name;
         $emojis = $this->getEmojis();
         $cityForecast = [];
 
-        foreach($forecast[$cityModel->name] as $temp){
+        foreach ($forecast[$cityModel->name] as $temp) {
             $cityForecast[] = new City([
                 'name' => $cityModel->name,
                 'country' => $cityModel->country,
@@ -98,9 +114,8 @@ class CityController extends Controller
             ]);
         }
 
-        return view('forecast', compact('cityForecast','name','emojis'));
+        return view('forecast', compact('cityForecast', 'name', 'emojis'));
     }
-
 
     private function getEmojis()
     {

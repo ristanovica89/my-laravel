@@ -10,19 +10,19 @@
     </div>
 
     <p class="text-6xl font-extrabold text-white text-center my-4">
-        {{ $city->temperature }}°C
+        {{ $city->weather->temperature }}°C
     </p>
 
     <div class="flex-1 flex flex-col items-center justify-center space-y-1">
         <div class="text-8xl leading-none">
-            {{ $emojis[$city->weather_condition] ?? '❓' }}
+            {{ $emojis[$city->weather->description] ?? '❓' }}
         </div>
         <p class="text-gray-400 text-lg capitalize">
-            {{ $city->weather_condition }}
+            {{ $city->weather->description }}
         </p>
     </div>
 
-    <a href="{{ route('forecast', ['city' => $city->name]) }}" class="mt-auto">
+    <a href="{{ route('forecast', $city) }}" class="mt-auto">
         <button
             class="w-full px-4 py-2 text-sm font-semibold uppercase tracking-wide
                    text-green-400 border border-green-500 rounded-lg

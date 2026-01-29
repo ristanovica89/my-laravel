@@ -28,8 +28,6 @@
         <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">City</th>
         <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">Country</th>
         <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">Time-Zone</th>
-        <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">Temp</th>
-        <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">Desc</th>
         <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">Action</th>
       </tr>
     </thead>
@@ -41,8 +39,6 @@
         <td class="px-4 py-2 text-sm text-gray-800">{{ $city->name }}</td>
         <td class="px-4 py-2 text-sm text-gray-800">{{ $city->country }}</td>
         <td class="px-4 py-2 text-sm text-gray-800">{{ $city->time_zone }}</td>
-        <td class="px-4 py-2 text-sm text-gray-800">{{ $city->temperature }}°C</td>
-        <td class="px-4 py-2 text-sm text-gray-800">{{ $city->weather_condition }}</td>
         <td class="px-4 py-2 text-sm text-gray-800 space-x-2">
           <a href="{{ route('update-city-form', $city) }}">
             <button class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">

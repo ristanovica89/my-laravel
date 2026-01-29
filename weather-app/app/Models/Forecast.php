@@ -15,4 +15,8 @@ class Forecast extends Model
         'date',
         'city_id',
     ];
+
+    protected $casts = [
+        'date' => 'datetime'
+    ];
 }
