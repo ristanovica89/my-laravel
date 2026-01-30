@@ -3,7 +3,7 @@
 
 @section('content')
 @section('banner', 'Admin Panel - Weather App')
-
+@include('partials.errors')
 @if(session('success'))
 <div class="mb-4 rounded-md bg-green-100 p-4">
   <div class="flex items-center">
@@ -15,7 +15,26 @@
 </div>
 @endif
 
-<div class="flex justify-end mb-4">
+<div class="flex justify-between mb-4">
+  <form action="{{ route('update-temperature') }}" method="POST" class="flex items-center gap-3">
+      @csrf
+    <button type="submit"
+      class="bg-orange-400 hover:bg-orange-600 text-white font-semibold
+             py-2 px-4 rounded-lg shadow-md transition-colors duration-200">
+      Update Temperature
+    </button>
+    <select name="city_id"
+      class="border border-gray-300 rounded-md px-3 py-2 text-sm
+             focus:outline-none focus:ring-2 focus:ring-yellow-400">
+      <option value="">Select city</option>
+      @foreach($cities as $city)
+      <option value="{{ $city->id }}">{{ $city->name }}</option>
+      @endforeach
+    </select>
+    <input type="number" step="0.1" name="temperature" placeholder="°C"
+      class="w-24 border border-gray-300 rounded-md px-3 py-2 text-sm
+             focus:outline-none focus:ring-2 focus:ring-yellow-400">
+  </form>
   <a href="{{ route('add-city-form') }}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-200">
     + Add City
   </a>
@@ -28,6 +47,7 @@
         <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">City</th>
         <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">Country</th>
         <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">Time-Zone</th>
+        <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">Temperature (°C)</th>
         <th scope="col" class="px-4 py-2 text-left text-sm font-semibold text-gray-800">Action</th>
       </tr>
     </thead>
@@ -39,6 +59,7 @@
         <td class="px-4 py-2 text-sm text-gray-800">{{ $city->name }}</td>
         <td class="px-4 py-2 text-sm text-gray-800">{{ $city->country }}</td>
         <td class="px-4 py-2 text-sm text-gray-800">{{ $city->time_zone }}</td>
+        <td class="px-4 py-2 text-sm text-gray-800">{{ $city->weather->temperature }}</td>
         <td class="px-4 py-2 text-sm text-gray-800 space-x-2">
           <a href="{{ route('update-city-form', $city) }}">
             <button class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">

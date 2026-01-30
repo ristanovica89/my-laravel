@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WeatherController;
 use App\Http\Middleware\CheckAdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ Route::middleware(['auth', CheckAdminMiddleware::class])
             ->name('update-city-form');
         Route::post('/city-update/{city}', [CityController::class, 'updateCityById'])
             ->name('update-city');
+        Route::post('/temperature', [WeatherController::class, 'updateTemperature'])
+            ->name('update-temperature');
 });
 
 
