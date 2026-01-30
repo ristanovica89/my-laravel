@@ -63,22 +63,22 @@ class CityController extends Controller
         return redirect(route('admin-panel'))->with('success', 'City has been successfully updated.');
     }
 
-    public function forecast(City $city)
+    public function forecast($city)
     {
+        $cityModel = City::where('name', ucwords($city))->first();
 
-        // if (! $city) {
-        //     return back()->with('message', 'There is no city with that name.');
-        // }
-        //-> kada se u url ukuca nepostojeci id -> app baca 404, ni ne dodje do kontrolera
-
-        if (! $city->forecasts()->exists()) {
-            return back()->with('message', 'No forecast for ' . $city->name);
+        if ($cityModel === null) {
+            return back()->with('message', 'There is no ' . $city . ' on list.');
         }
 
-        $name = $city->name;
-        $country = $city->country;
+        if (! $cityModel->forecasts()->exists()) {
+            return back()->with('message', 'No forecast for ' . $cityModel->name);
+        }
+
+        $name = $cityModel->name;
+        $country = $cityModel->country;
         $emojis = $this->getEmojis();
-        $cityForecasts = $city->forecasts;
+        $cityForecasts = $cityModel->forecasts;
 
         return view('forecast', compact('cityForecasts', 'name', 'country', 'emojis'));
     }

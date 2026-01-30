@@ -22,7 +22,7 @@
         </p>
     </div>
 
-    <a href="{{ route('forecast', $city) }}" class="mt-auto">
+    <a href="{{ route('forecast', ['city' => $city->name]) }}" class="mt-auto">
         <button
             class="w-full px-4 py-2 text-sm font-semibold uppercase tracking-wide
                    text-green-400 border border-green-500 rounded-lg
