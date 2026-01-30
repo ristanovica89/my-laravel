@@ -37,10 +37,17 @@ class ForecastSeeder extends Seeder
         for ($i = 1; $i <= $days; $i++) {
             $date = date('Y-m-d', strtotime("+$i day"));
 
+            $description = $faker->randomElement($this->weatherConditions());
+            $probability = null;
+            if($description == 'snowy' || $description == 'rainy'){
+                $probability = $faker->numberBetween(0,100);
+            }
+
             Forecast::create([
                 'min_temp' => $faker->numberBetween(-5, 5),
                 'max_temp' => $faker->numberBetween(15, 35),
-                'description' => $faker->randomElement($this->weatherConditions()),
+                'description' => $description,
+                'probability' => $probability,
                 'date' => $date,
                 'city_id' => $city->id,
             ]);

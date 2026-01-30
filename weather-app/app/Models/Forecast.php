@@ -13,6 +13,7 @@ class Forecast extends Model
         'max_temp',
         'description',
         'date',
+        'probability',
         'city_id',
     ];
 
