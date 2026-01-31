@@ -10,9 +10,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="h-full">
+<body class="min-h-screen flex flex-col">
 
-  <div class="min-h-full">
+  <div class="flex flex-col flex-1">
     @include('partials.user-navbar')
 
     <header class="relative bg-white shadow-sm">
@@ -20,9 +20,8 @@
         <h1 class="text-3xl font-bold tracking-tight text-gray-900">@yield('banner')</h1>
       </div>
     </header>
-    <main>
+    <main class="flex-1">
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <!-- Your content -->
         @yield('content')
       </div>
     </main>

@@ -4,19 +4,10 @@
 @section('content')
 @section('banner', 'Admin Panel - Weather App')
 @include('partials.errors')
-@if(session('success'))
-<div class="mb-4 rounded-md bg-green-100 p-4">
-  <div class="flex items-center">
-    <svg class="h-5 w-5 flex-shrink-0 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 111.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-    </svg>
-    <span class="ml-3 text-sm font-medium text-green-700">{{ session('success') }}</span>
-  </div>
-</div>
-@endif
+@include('partials.success')
 
 <div class="flex justify-between mb-4">
-  <form action="{{ route('update-temperature') }}" method="POST" class="flex items-center gap-3">
+  <form action="{{ route('weather.update-temperature') }}" method="POST" class="flex items-center gap-3">
       @csrf
     <button type="submit"
       class="bg-orange-400 hover:bg-orange-600 text-white font-semibold
@@ -37,6 +28,9 @@
   </form>
   <a href="{{ route('add-city-form') }}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-200">
     + Add City
+  </a>
+  <a href="{{ route('forecast.show-form') }}" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-200">
+    + Add Forecast
   </a>
 </div>
 <div class="overflow-x-auto p-4">

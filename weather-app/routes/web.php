@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\ForecastController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Middleware\CheckAdminMiddleware;
@@ -31,8 +32,12 @@ Route::middleware(['auth', CheckAdminMiddleware::class])
         Route::post('/city-update/{city}', [CityController::class, 'updateCityById'])
             ->name('update-city');
         Route::post('/temperature', [WeatherController::class, 'updateTemperature'])
-            ->name('update-temperature');
-});
+            ->name('weather.update-temperature');
+        Route::get('/forecast/create', [ForecastController::class, 'showForm'])
+            ->name('forecast.show-form');
+        Route::post('/forecast/create', [ForecastController::class, 'create'])
+            ->name('forecast.create');
+    });
 
 
 
