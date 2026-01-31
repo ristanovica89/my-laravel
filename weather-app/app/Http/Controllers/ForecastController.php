@@ -27,13 +27,8 @@ class ForecastController extends Controller
             'city_id' => 'required|exists:cities,id',
         ]);
 
-        $city = City::where('id',$request->city_id)->first();
-
-        if(!$city){
-            return back();
-        }
-
         Forecast::create($validated);
+        $city = City::where('id',$request->city_id)->first();
 
         return back()->with('success', 'Forecast for ' . $city->name . ' is successfully added');
     }

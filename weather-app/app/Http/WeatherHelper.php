@@ -22,6 +22,21 @@ class WeatherHelper
         return $color;
   }
 
+  public static function getEmoji($weather)
+  {
+    $emoji = match($weather){
+        'sunny' => '☀️',
+        'cloudy' => '☁️',
+        'windy' => '🌬️',
+        'rainy' => '🌧️',
+        'snowy' => '❄️',
+        'clear' => '🌟',
+        'default' => '/',
+    };
+
+    return $emoji;
+  }
+
 
 
 

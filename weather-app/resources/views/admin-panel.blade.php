@@ -47,13 +47,17 @@
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
       @php $rowNo = 0; @endphp
+
       @foreach($cities as $city)
+      @php 
+        $color = \App\Http\WeatherHelper::getColor($city->weather->temperature); 
+      @endphp
       <tr>
         <td class="px-4 py-2 text-sm text-gray-800">{{ ++$rowNo; }}</td>
         <td class="px-4 py-2 text-sm text-gray-800">{{ $city->name }}</td>
         <td class="px-4 py-2 text-sm text-gray-800">{{ $city->country }}</td>
         <td class="px-4 py-2 text-sm text-gray-800">{{ $city->time_zone }}</td>
-        <td class="px-4 py-2 text-sm text-gray-800">{{ $city->weather->temperature }}</td>
+        <td class="px-4 py-2 text-sm {{ $color }}">{{ $city->weather->temperature }}</td>
         <td class="px-4 py-2 text-sm text-gray-800 space-x-2">
           <a href="{{ route('update-city-form', $city) }}">
             <button class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">

@@ -13,4 +13,5 @@ class Weather extends Model
         'description',
         'city_id',
     ];
+
 }
