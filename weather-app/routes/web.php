@@ -12,6 +12,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [CityController::class, 'index']);
     Route::get('/forecast/{city}', [CityController::class, 'forecast'])
         ->name('forecast');
+    Route::get('/search', [CityController::class, 'searchCity'])
+        ->name('city.search');
 });
 
 // ADMIN

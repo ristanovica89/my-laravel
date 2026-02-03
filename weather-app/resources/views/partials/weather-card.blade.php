@@ -29,7 +29,7 @@
                    hover:bg-green-500 hover:text-gray-900
                    transition duration-300 ease-in-out
                    shadow-md hover:shadow-green-500/40">
-            Forecast next 5 days
+            Forecast
         </button>
     </a>
 

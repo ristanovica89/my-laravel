@@ -12,7 +12,8 @@ class CityController extends Controller
 
         $emojis = $this->getEmojis();
 
-        $cities = City::all();
+        $cities = City::with('weather')->get();
+        
         $date = now()->format('d F');
 
         return view('welcome', compact('cities', 'emojis', 'date'));
@@ -20,7 +21,7 @@ class CityController extends Controller
 
     public function adminIndex()
     {
-        $cities = City::all();
+        $cities = City::with(['weather:id,city_id,temperature'])->get();
 
         return view('admin-panel', compact('cities'));
     }
@@ -81,6 +82,26 @@ class CityController extends Controller
         $cityForecasts = $cityModel->forecasts;
 
         return view('forecast', compact('cityForecasts', 'name', 'country', 'emojis'));
+    }
+
+    public function searchCity(Request $request)
+    {
+    
+        $city = City::where('name','like', '%'.$request->q.'%' )->first();
+        
+        
+        if(! $city){
+            return back()->with('message', 'We dont have info for ' . $request->q . '!');
+        }
+
+        $todayForecast = $city->forecasts()->whereDate('date', today())->first();
+
+        if(! $todayForecast){
+            return back()->with('message', 'We dont have info for ' . $request->q . '!');
+        }
+
+        return back()->with('success','Today weather in '. ucwords(strtolower($request->q)) . ' is : ' . ucwords($todayForecast->description) );
+        
     }
 
     public function forecastDummy($city)

@@ -37,33 +37,16 @@ class ForecastSeeder extends Seeder
         for ($i = 1; $i <= $days; $i++) {
             $date = date('Y-m-d', strtotime("+$i day"));
 
-
-            /*
-                ->latest('date')->first();
-                jer $date = date('Y-m-d', strtotime("+$i day")) simulira sledece dane
-             */
             $day_before = Forecast::where('city_id', $city->id)->latest('date')->first();
 
-            /* 
-                1)Ako vec postoji dan pre, nalazim max temp i dodajem mu od -5 do +5
-                2)Ako prethodnog dana nema, $faker mi pravi temp od -5 do 35 i vec u sl iteraciji
-                ulazimo u 1) 
-             */
             if ($day_before) {
                 $max_temp = $day_before->max_temp + $faker->numberBetween(-5, 5);
             } else {
                 $max_temp = $faker->numberBetween(-5, 35);
             }
 
-            /*
-                Pojednostavljena logika minimalna temperatura je uvek za 12 manja od maksimalne,
-                posto sam poceo sa min i max temp , pa da ne komplikujem za sad sa srednjom temp..
-             */
             $min_temp = $max_temp - 12;
 
-            /*
-                Vraca $description koji je filtriran zadatim uslovima (zamenjeno 'rainy' > -5)
-            */
             $description = $faker->randomElement($this->weatherConditions($max_temp));
 
             $probability = null;
@@ -87,7 +70,6 @@ class ForecastSeeder extends Seeder
         $this->command->getOutput()->progressFinish();
         $this->command->info('Forecast successfully added for ' . $days . ' days for city ' . $cityName);
 
-        // Kod mi lici na JS :( 
     }
 
     private function weatherConditions($temp)

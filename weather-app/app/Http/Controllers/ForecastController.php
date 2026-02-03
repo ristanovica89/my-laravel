@@ -11,7 +11,7 @@ class ForecastController extends Controller
 
     public function showForm()
     {
-        $cities = City::all();
+        $cities = City::with('forecasts')->get();
 
         return view('admin-forecast', compact('cities'));
     }

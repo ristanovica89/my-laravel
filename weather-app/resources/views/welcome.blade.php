@@ -3,6 +3,7 @@
 
 @section('content')
 @section('banner', 'Weather App')
+@include('partials.success')
 @include('partials.message')
 
 <div class="flex flex-wrap justify-center gap-6">
