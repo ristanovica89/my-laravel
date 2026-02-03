@@ -1,4 +1,22 @@
-<div class="bg-gray-900 rounded-xl p-6 w-72 h-96 flex flex-col shadow-lg">
+<div class="bg-gray-900 rounded-xl p-6 w-72 h-96 flex flex-col shadow-lg relative">
+
+    <!-- LIKE HEART U GORNJEM DESNOM UGLU -->
+    <form action="#" method="POST" class="absolute top-4 right-4 group">
+        @csrf
+        <button type="submit" class="w-8 h-8">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                class="w-8 h-8 text-green-400 transition duration-200">
+                <path class="fill-transparent group-hover:fill-green-500"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+        </button>
+    </form>
+
+
 
     <p class="text-green-500 text-sm uppercase font-semibold text-center">
         {{ $date }}
@@ -22,6 +40,7 @@
         </p>
     </div>
 
+    <!-- FORECAST BUTTON -->
     <a href="{{ route('forecast', ['city' => $city->name]) }}" class="mt-auto">
         <button
             class="w-full px-4 py-2 text-sm font-semibold uppercase tracking-wide
