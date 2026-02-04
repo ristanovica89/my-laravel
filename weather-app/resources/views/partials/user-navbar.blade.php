@@ -51,9 +51,14 @@
       <!-- Right: User + Logout -->
       <div class="hidden md:flex items-center space-x-4">
         <span class="text-white font-medium px-3 py-2 bg-gray-700 rounded-md">
-          {{ auth()->user()->name }}
+          @auth
+            {{ auth()->user()->name }}
+          @endauth
+          @guest
+            Guest
+          @endguest
         </span>
-
+        @auth
         <form method="POST" action="{{ route('logout') }}">
           @csrf
           <button type="submit"
@@ -62,6 +67,15 @@
             Logout
           </button>
         </form>
+        @endauth
+        @guest
+          <a href="{{ route('login') }}"><button
+            class="px-3 py-2 text-sm font-medium text-green-500 rounded-md 
+                   hover:text-green-400 focus:outline-2 focus:outline-offset-2 focus:outline-green-400">
+            Login
+          </button>
+          </a>
+        @endguest
       </div>
 
       <!-- Mobile menu button -->

@@ -3,18 +3,24 @@
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ForecastController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserCitiesController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Middleware\CheckAdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
-// USER
-Route::middleware('auth')->group(function () {
+// GUEST
     Route::get('/', [CityController::class, 'index']);
     Route::get('/forecast/{city}', [CityController::class, 'forecast'])
         ->name('forecast');
     Route::get('/search', [CityController::class, 'searchCity'])
         ->name('city.search');
-});
+    Route::post('/favourites/{city}', [UserCitiesController::class, 'favourites'])
+        ->name('favourites');
+
+// USER
+// Route::middleware('auth')->group(function () {
+    
+// });
 
 // ADMIN
 

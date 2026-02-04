@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\FavouritesHelper;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CityController extends Controller
 {
@@ -11,12 +13,16 @@ class CityController extends Controller
     {
 
         $emojis = $this->getEmojis();
-
-        $cities = City::with('weather')->get();
-        
         $date = now()->format('d F');
+        $cities = City::with('weather')->get();
 
-        return view('welcome', compact('cities', 'emojis', 'date'));
+        $favouriteCityIds = [];
+
+        if(Auth::check()){
+            $favouriteCityIds = Auth::user()->favouriteCities->pluck('city_id')->toArray();
+        }
+
+        return view('welcome', compact('cities', 'emojis', 'date', 'favouriteCityIds'));
     }
 
     public function adminIndex()

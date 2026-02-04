@@ -1,12 +1,20 @@
 <div class="bg-gray-900 rounded-xl p-6 w-72 h-96 flex flex-col shadow-lg relative">
+@php
+    $isFavourite = in_array($city->id, $favouriteCityIds);
+@endphp
 
     <!-- LIKE HEART U GORNJEM DESNOM UGLU -->
-    <form action="#" method="POST" class="absolute top-4 right-4 group">
+    <form action="{{ route('favourites', $city) }}" method="POST" class="absolute top-4 right-4 group">
         @csrf
         <button type="submit" class="w-8 h-8">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                class="w-8 h-8 text-green-400 transition duration-200">
-                <path class="fill-transparent group-hover:fill-green-500"
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="w-8 h-8 text-green-500 transition duration-200">
+                <path
+                    class="{{ $isFavourite
+                    ? 'fill-green-500'
+                    : 'fill-transparent group-hover:fill-green-500'
+                }}"
                     stroke="currentColor"
                     stroke-width="2"
                     stroke-linecap="round"
