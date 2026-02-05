@@ -17,7 +17,7 @@ class UserCitiesController extends Controller
         }
             
 
-        $userId = Auth::user()->id;
+        $userId = Auth::id();
         $cityId = $city->id;
 
         $isFavorite = FavouritesHelper::isFavourited($userId, $cityId);
