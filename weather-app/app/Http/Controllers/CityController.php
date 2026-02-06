@@ -122,9 +122,9 @@ class CityController extends Controller
                 $weatherController = new WeatherController();
                 $todayWeather = $weatherController->createWeatherFromApi($cityId, $apiData);
                
-            }
-
-            $todayWeather = $city->weather;
+            }else{
+                $todayWeather = $city->weather;
+            }         
         }
 
         return back()->with(
