@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\FavouritesHelper;
 use App\Models\City;
+use App\Services\CityService;
+use App\Services\WeatherApiService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 
 class CityController extends Controller
 {
+    public function __construct(
+        private CityService $cityService,
+        private WeatherApiService $weatherApiService)
+        {}
+
     public function index()
     {
 
@@ -28,7 +34,7 @@ class CityController extends Controller
 
     public function adminIndex()
     {
-        $cities = City::with(['weather:id,city_id,temperature'])->get();
+        $cities = $this->cityService->getCitiesWithWeatherForAdmin();
 
         return view('admin-panel', compact('cities'));
     }
@@ -41,7 +47,7 @@ class CityController extends Controller
             'time_zone' => 'required|string',
         ]);
 
-        City::create($validated);
+        $this->cityService->createCity($validated);
 
         return redirect(route('admin-panel'))->with('success', 'City has been successfully added.');
     }
@@ -73,7 +79,7 @@ class CityController extends Controller
 
     public function forecast($city)
     {
-        $cityModel = City::where('name', ucwords($city))->first();
+        $cityModel = $this->cityService->findCityByName($city);
 
         if ($cityModel === null) {
             return back()->with('message', 'There is no ' . $city . ' on list.');
@@ -96,21 +102,19 @@ class CityController extends Controller
         $city = null;
         $todayWeather = null;
 
-        $city = City::where('name', 'like', '%' . $request->q . '%')->first();
+        $city = $this->cityService->searchForCityByName($request->q);
 
         if (!$city) {
 
-            $apiData = $this->getApiDataForCity($request->q);
+            $apiData = $this->weatherApiService->getWeatherApiDataForCityFromCommand($request->q);
 
             if (isset($apiData['error'])) {
                 return back()->with('message', $apiData['error']);
             }
 
-            $city = $this->createCityFromApi($apiData);
+            $city = $this->cityService->createCityFromApiData($apiData);
             $cityId = $city->id;
-
-            $weatherController = new WeatherController();
-            $todayWeather = $weatherController->createWeatherFromApi($cityId, $apiData);
+            $todayWeather = $this->weatherApiService->createWeatherFromApiData($cityId, $apiData);
         
         } else {
 
@@ -118,9 +122,8 @@ class CityController extends Controller
                 $cityName = $city->name;
                 $cityId = $city->id;
 
-                $apiData = $this->getApiDataForCity($cityName);
-                $weatherController = new WeatherController();
-                $todayWeather = $weatherController->createWeatherFromApi($cityId, $apiData);
+                $apiData = $this->weatherApiService->getWeatherApiDataForCityFromCommand($cityName);
+                $todayWeather = $this->weatherApiService->createWeatherFromApiData($cityId, $apiData);
                
             }else{
                 $todayWeather = $city->weather;
@@ -134,62 +137,7 @@ class CityController extends Controller
                 ', with temperature ' . $todayWeather->temperature . '°C'
         );
     }
-
-    public function forecastDummy($city)
-    {
-        $forecast = [
-            'Belgrade' => [13, 16, 11, 9, 7],
-            'Novi Sad' => [10, 6, 1, -2, 0],
-        ];
-
-        $cityModel = City::where('name', ucwords($city))->first();
-
-        if ($cityModel === null) {
-            return back()->with('message', 'There is no city with that name.');
-        }
-
-        if (!array_key_exists($cityModel->name, $forecast)) {
-            return back()->with('message', 'No weather forecast for ' . $cityModel->name);
-        }
-
-        $name = $cityModel->name;
-        $emojis = $this->getEmojis();
-        $cityForecast = [];
-
-        foreach ($forecast[$cityModel->name] as $temp) {
-            $cityForecast[] = new City([
-                'name' => $cityModel->name,
-                'country' => $cityModel->country,
-                'time_zone' => $cityModel->time_zone,
-                'temperature' => $temp,
-                'weather_condition' => 'clear',
-            ]);
-        }
-
-        return view('forecast', compact('cityForecast', 'name', 'emojis'));
-    }
-
-    private function createCityFromApi($apiData): City
-    {
-        return City::create([
-            'name' => $apiData['city_name'],
-            'country' => $apiData['city_country'],
-            'time_zone' => $apiData['city_time_zone'],
-        ]);
-    }
-
-    private function getApiDataForCity(string $cityName): array
-    {
-        Artisan::call('weather:get', [
-            'city' => $cityName,
-        ]);
-
-        $output = Artisan::output();
-        $info = json_decode($output, true) ?? [];
-
-        return $info;
-    }
-
+    
     private function getEmojis()
     {
         return [

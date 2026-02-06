@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\WeatherApiService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -27,16 +28,10 @@ class GetRealWeather extends Command
     public function handle()
     {
 
-        $response = Http::get(
-            config('services.weather.base_url') . '/weather',
-            [
-                'q' => $this->argument('city'),
-                'appid' => config('services.weather.key'),
-                'units' => 'metric',
-            ]
-        );
+        $cityName = $this->argument('city');
 
-        $jsonResponse = $response->json();
+        $weatherApiService = new WeatherApiService();
+        $jsonResponse = $weatherApiService->getWeatherApi($cityName);
 
         if ($jsonResponse["cod"] == 404) {
            $apiRes = [
