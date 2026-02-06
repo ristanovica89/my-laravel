@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\FavouritesHelper;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 
 class CityController extends Controller
@@ -18,7 +19,7 @@ class CityController extends Controller
 
         $favouriteCityIds = [];
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $favouriteCityIds = Auth::user()->favouriteCities->pluck('city_id')->toArray();
         }
 
@@ -92,22 +93,46 @@ class CityController extends Controller
 
     public function searchCity(Request $request)
     {
-    
-        $city = City::where('name','like', '%'.$request->q.'%' )->first();
+        $city = null;
+        $todayWeather = null;
+
+        $city = City::where('name', 'like', '%' . $request->q . '%')->first();
+
+        if (!$city) {
+
+            $apiData = $this->getApiDataForCity($request->q);
+
+            if (isset($apiData['error'])) {
+                return back()->with('message', $apiData['error']);
+            }
+
+            $city = $this->createCityFromApi($apiData);
+            $cityId = $city->id;
+
+            $weatherController = new WeatherController();
+            $todayWeather = $weatherController->createWeatherFromApi($cityId, $apiData);
         
-        
-        if(! $city){
-            return back()->with('message', 'We dont have info for ' . $request->q . '!');
+        } else {
+
+            if (! $city->weather) {
+                $cityName = $city->name;
+                $cityId = $city->id;
+
+                $apiData = $this->getApiDataForCity($cityName);
+                $weatherController = new WeatherController();
+                $todayWeather = $weatherController->createWeatherFromApi($cityId, $apiData);
+               
+            }
+
+            $todayWeather = $city->weather;
         }
 
-        $todayForecast = $city->forecasts()->whereDate('date', today())->first();
-
-        if(! $todayForecast){
-            return back()->with('message', 'We dont have info for ' . $request->q . '!');
-        }
-
-        return back()->with('success','Today weather in '. ucwords(strtolower($request->q)) . ' is : ' . ucwords($todayForecast->description) );
-        
+        return back()->with(
+            'success',
+            'Today\'s weather in ' . ucwords(strtolower($city->name)) .
+                ' is ' . $todayWeather->description .
+                ', with temperature ' . $todayWeather->temperature . '°C'
+        );
     }
 
     public function forecastDummy($city)
@@ -142,6 +167,27 @@ class CityController extends Controller
         }
 
         return view('forecast', compact('cityForecast', 'name', 'emojis'));
+    }
+
+    private function createCityFromApi($apiData): City
+    {
+        return City::create([
+            'name' => $apiData['city_name'],
+            'country' => $apiData['city_country'],
+            'time_zone' => $apiData['city_time_zone'],
+        ]);
+    }
+
+    private function getApiDataForCity(string $cityName): array
+    {
+        Artisan::call('weather:get', [
+            'city' => $cityName,
+        ]);
+
+        $output = Artisan::output();
+        $info = json_decode($output, true) ?? [];
+
+        return $info;
     }
 
     private function getEmojis()

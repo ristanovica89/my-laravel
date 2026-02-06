@@ -23,4 +23,14 @@ class WeatherController extends Controller
         return back()->with('success', 'Temperature has been successfully updated.');
 
     }
+
+    public function createWeatherFromApi($cityId, $apiData):Weather
+    {
+        return Weather::create([
+            'city_id'=>$cityId,
+            'temperature'=>$apiData['temperature'],
+            'description'=>$apiData['description'],
+            'icon'=>$apiData['icon'],
+        ]);
+    }
 }

@@ -41,7 +41,7 @@
 
     <div class="flex-1 flex flex-col items-center justify-center space-y-1">
         <div class="text-8xl leading-none">
-            {{ $emojis[$city->weather->description] ?? '❓' }}
+            {{ $city->weather->icon ?? $emojis[$city->weather->description] ?? '❓' }}
         </div>
         <p class="text-gray-400 text-lg capitalize">
             {{ $city->weather->description }}

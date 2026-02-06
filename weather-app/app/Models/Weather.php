@@ -11,6 +11,7 @@ class Weather extends Model
     protected $fillable = [
         'temperature',
         'description',
+        'icon',
         'city_id',
     ];
 
