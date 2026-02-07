@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'currency' => [
+        'base_url' => env('CURRENCY_URL_BASE'),
+    ],
+
 ];
