@@ -17,14 +17,14 @@ Route::get('/', [HomePageController::class, 'index'])
 Route::view('/about', 'about');
 
 // Contacts
-Route::get('/contact', [ContactController::class, 'index'])
-  ->name('contact.index');
-Route::post('/contact', [ContactController::class, 'sendMessageFromContactPage'])
-  ->name('contact.sendMessage');
+Route::controller(ContactController::class)->group(function(){
+  Route::get('/contact','index')->name('contact.index');
+  // Create Contact
+  Route::post('/contact','sendMessageFromContactPage')->name('contact.sendMessage');
+});
 
 // Shop (Products)
-Route::get('/shop', [ProductController::class, 'index'])
-  ->name('product.index');
+Route::get('/shop', [ProductController::class, 'index'])->name('product.index');
 
 
 /*************************************************************************************/
@@ -38,41 +38,34 @@ Route::middleware(['auth', AdminCheckMiddleware::class])
     Route::view('/', 'pages-admin/dashboard-admin');
     // Products
     //------------------------------------------------------------------------------------
-    Route::get('/products', [ProductController::class, 'getAllProductsForAdmin'])
-      ->name('products.getAllProductsForAdmin');
-    // Store Product
-    Route::post('/product-create', [ProductController::class, 'storeNewProductAdmin'])
-      ->name('products.storeNewProductAdmin');
-
-    // Update Product
-    Route::post('/product-update/{product}', [ProductController::class, 'updateProductById'])
-      ->name('products.updateProductById');
-
-    Route::get('/product-update/{product}', [ProductController::class, 'getProductForUpdateById'])
-      ->name('products.getProductForUpdateById');
-
     Route::view('/products/create', 'pages-admin/create-product-admin');
-
-    // Delete Product
-    Route::get('/product-delete/{product}', [ProductController::class, 'deleteProductById'])
-      ->name('product.deleteProductById');
-
+    Route::controller(ProductController::class)->group(function(){
+      Route::get('/products','getAllProductsForAdmin')->name('products.getAllProductsForAdmin');
+      // Store Product
+      Route::post('/product-create','storeNewProductAdmin')->name('products.storeNewProductAdmin');
+      // Update Product
+      Route::post('/product-update/{product}','updateProductById')->name('products.updateProductById');
+      Route::get('/product-update/{product}','getProductForUpdateById')->name('products.getProductForUpdateById');
+      // Delete Product
+      Route::get('/product-delete/{product}','deleteProductById')->name('product.deleteProductById');
+    });
+    
     // Contacts
     //-----------------------------------------------------------------------------------
-    Route::get('/contacts', [ContactController::class, 'getAllContactsForAdmin'])
-      ->name('contacts.getAllContactsForAdmin');
-
-    Route::get('/contact-delete/{contact}', [ContactController::class, 'deleteContactById'])
-      ->name('contact.deleteContactById');
-
-    // Update Contact
-
-    Route::get('/contact-update/{contact}', [ContactController::class, 'getContactForUpdateById'])
-      ->name('contacts.getContactForUpdateById');
-
-    Route::post('/contact-update/{contact}', [ContactController::class, 'updateContactById'])
-      ->name('contacts.updateContactById');
-
+    Route::controller(ContactController::class)->group(function(){
+      Route::get('/contacts','getAllContactsForAdmin')
+        ->name('contacts.getAllContactsForAdmin');
+      // Delete Contact
+      Route::get('/contact-delete/{contact}','deleteContactById')
+        ->name('contact.deleteContactById');
+        // Update Contact
+      Route::get('/contact-update/{contact}','getContactForUpdateById')
+        ->name('contacts.getContactForUpdateById');
+      Route::post('/contact-update/{contact}','updateContactById')
+        ->name('contacts.updateContactById');
+    });
+    
+    
     // Users
     Route::view('/users', 'pages-admin/users-admin');
   });
