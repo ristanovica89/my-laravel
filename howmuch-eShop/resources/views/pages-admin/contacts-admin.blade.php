@@ -31,7 +31,7 @@
         <a href="{{ route('contact.deleteContactById', $contact) }}" class="btn btn-sm btn-outline-danger me-1" title="Delete Contact">
           <i class="bi bi-trash"></i> Delete
         </a>
-        <a href="{{ route('contacts.getContactForUpdateById', $contact) }}" class="btn btn-sm btn-outline-primary" title="Update Contact">
+        <a href="{{ route('contact.getContactForUpdateById', $contact) }}" class="btn btn-sm btn-outline-primary" title="Update Contact">
           <i class="bi bi-pencil-square"></i> Update
         </a>
       </td>

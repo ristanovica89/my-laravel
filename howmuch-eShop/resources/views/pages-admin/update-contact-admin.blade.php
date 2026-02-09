@@ -11,7 +11,7 @@
 
     <h3 class="mb-4 text-center">Update <span class="text-warning"> Contact</span></h3>
 
-    <form action="{{ route('contacts.updateContactById', $contact) }}" method="post">
+    <form action="{{ route('contact.updateContactById', $contact) }}" method="post">
       @csrf
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>

@@ -1,5 +1,5 @@
 <div class="text-end mb-3">
-    <a href="/admin/products/create" class="btn btn-success btn-lg">
+    <a href=" {{ route('products.storeNewProductAdmin') }}" class="btn btn-success btn-lg">
         + Create New Product
     </a>
 </div>

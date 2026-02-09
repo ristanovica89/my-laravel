@@ -12,18 +12,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomePageController::class, 'index'])->name('home.index');
 
-Route::view('/about', 'about');
+Route::view('/about', 'about')->name('home.about');
 
 // Contacts
 Route::controller(ContactController::class)
   ->prefix('contact')
+  ->name('contact.')
   ->group(function () {
-  Route::get('/', 'index')->name('contact.index');
-  Route::post('/', 'sendMessageFromContactPage')->name('contact.sendMessage');
+  Route::get('/', 'index')->name('index');
+  Route::post('/send', 'sendMessageFromContactPage')->name('sendMessage');
 });
 
 // Shop (Products)
-Route::get('/shop', [ProductController::class, 'index'])->name('product.index');
+Route::get('/shop', [ProductController::class, 'index'])->name('products.index');
 
 
 /*************************************************************************************/
@@ -34,31 +35,33 @@ Route::middleware(['auth', AdminCheckMiddleware::class])
   ->prefix('admin')
   ->group(function () {
 
-    Route::view('/', 'pages-admin/dashboard-admin');
+    Route::view('/', 'pages-admin/dashboard-admin')->name('admin.dashboard');
     // Products
     //------------------------------------------------------------------------------------
     Route::view('/products/create', 'pages-admin/create-product-admin');
     Route::controller(ProductController::class)
-      ->prefix('product')
+      ->prefix('products')
+      ->name('products.')
       ->group(function () {
-      Route::get('/', 'getAllProductsForAdmin')->name('products.getAllProductsForAdmin');
-      Route::post('/create', 'storeNewProductAdmin')->name('products.storeNewProductAdmin');
-      Route::post('/update/{product}', 'updateProductById')->name('products.updateProductById');
-      Route::get('/update/{product}', 'getProductForUpdateById')->name('products.getProductForUpdateById');
-      Route::get('/delete/{product}', 'deleteProductById')->name('product.deleteProductById');
+      Route::get('/', 'getAllProductsForAdmin')->name('getAllProductsForAdmin');
+      Route::post('/create', 'storeNewProductAdmin')->name('storeNewProductAdmin');
+      Route::post('/update/{product}', 'updateProductById')->name('updateProductById');
+      Route::get('/update/{product}', 'getProductForUpdateById')->name('getProductForUpdateById');
+      Route::get('/delete/{product}', 'deleteProductById')->name('deleteProductById');
     });
 
     // Contacts
     //-----------------------------------------------------------------------------------
     Route::controller(ContactController::class)
       ->prefix('contact')
+      ->name('contact.')
       ->group(function () {
-      Route::get('/', 'getAllContactsForAdmin')->name('contacts.getAllContactsForAdmin');
-      Route::get('/delete/{contact}', 'deleteContactById')->name('contact.deleteContactById');
-      Route::get('/update/{contact}', 'getContactForUpdateById')->name('contacts.getContactForUpdateById');
-      Route::post('/update/{contact}', 'updateContactById')->name('contacts.updateContactById');
+      Route::get('/all', 'getAllContactsForAdmin')->name('getAllContactsForAdmin');
+      Route::get('/delete/{contact}', 'deleteContactById')->name('deleteContactById');
+      Route::get('/update/{contact}', 'getContactForUpdateById')->name('getContactForUpdateById');
+      Route::post('/update/{contact}', 'updateContactById')->name('updateContactById');
     });
     // Users
     //-------------------------------------------------------------------------------------
-    Route::view('/users', 'pages-admin/users-admin');
+    Route::view('/users', 'pages-admin/users-admin')->name('admin.users');
   });

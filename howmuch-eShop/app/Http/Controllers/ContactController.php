@@ -50,6 +50,6 @@ class ContactController extends Controller
     {
         $this->contactRepository->update($contact, $request->validated());
 
-        return redirect()->route('contacts.getAllContactsForAdmin')->with('success', 'Contact has been successfully updated.');
+        return redirect()->route('contact.getAllContactsForAdmin')->with('success', 'Contact has been successfully updated.');
     }
 }
