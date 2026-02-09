@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ExchangeRate;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -26,13 +28,11 @@ class ExchangeRateCommand extends Command
      */
     public function handle()
     {
-        // https://kurs.resenje.org/api/v1/currencies/eur/rates/today
 
         $code = $this->argument('code');
 
-        $codes = ['eur', 'usd'];
 
-        if (! in_array($code, $codes)){
+        if (! in_array($code, ExchangeRate::CURRENCIES_AVAILABLE)){
             return $this->output->error('Wrong code');
         }
 
@@ -43,13 +43,15 @@ class ExchangeRateCommand extends Command
 
         $jsonResponse = $response->json();
 
-        $apiResponse = [
-            'code' => $jsonResponse['code'],
-            'date' => $jsonResponse['date'],
-            'exchange_middle' => $jsonResponse['exchange_middle'],
-            'converted_to' => 'RSD'
-        ];
+        if(ExchangeRate::isThereCurrencyForToday($jsonResponse['code'])){
+            return $this->output->error('Already updated currency');
+        }
+        
+        ExchangeRate::create([
+            'currency' => $jsonResponse['code'],
+            'amount' => $jsonResponse['exchange_middle'],
+        ]);
 
-        return $apiResponse;
+        return 0;
     }
 }

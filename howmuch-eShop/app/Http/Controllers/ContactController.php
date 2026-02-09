@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
+use App\Repositories\ContactRepository;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
 
-    public function getAllContactsForAdmin(){
-        $contacts = Contact::all();
+    public function __construct(private readonly ContactRepository $contactRepository){}
 
+    public function getAllContactsForAdmin(){
+        
+        $contacts = $this->contactRepository->getAll();
         return view('pages-admin/contacts-admin', compact('contacts'));
     }
 
@@ -19,22 +23,19 @@ class ContactController extends Controller
         return view('contact');
     }
 
-    public function sendMessageFromContactPage(Request $request){
+    public function sendMessageFromContactPage(ContactRequest $request){
 
-        $validated = $request->validate([
-            'email' => 'required|email|max:64',
-            'subject' => 'required|string|min:5',
-            'message' => 'required|string|min:10'
-        ]);
-
-        Contact::create($validated);
-
-        return back()->with('success','Message has been send successfully.');
+        $this->contactRepository->create($request->validated());
+        return back()->with('success','Message has been sent successfully.');
     }
 
     public function deleteContactById(Contact $contact)
     {
-        $contact->delete();
+        $success = $this->contactRepository->delete($contact);
+
+        if(! $success){
+            return back()->with('message', 'Failed to delete contact');
+        }
 
         return back()->with('success', 'Contact has been successfully deleted.');
     }
@@ -45,15 +46,9 @@ class ContactController extends Controller
         return view('pages-admin/update-contact-admin', compact('contact'));
     }
 
-    public function updateContactById(Request $request, Contact $contact)
+    public function updateContactById(ContactRequest $request, Contact $contact)
     {
-        $validated = $request->validate([
-            'email' => 'required|email|max:64',
-            'subject' => 'required|string|min:5',
-            'message' => 'required|string|min:10'
-        ]);
-
-        $contact->update($validated);
+        $this->contactRepository->update($contact, $request->validated());
 
         return redirect()->route('contacts.getAllContactsForAdmin')->with('success', 'Contact has been successfully updated.');
     }

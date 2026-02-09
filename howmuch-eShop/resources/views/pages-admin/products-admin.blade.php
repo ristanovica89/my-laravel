@@ -5,6 +5,7 @@
 @section('content')
 
 @include('components.success-flash-msg')
+@include('components.message-flash')
 
 <h1 class="text-center text-light mb-5">All <span class="text-warning">Products</span></h1>
 @include('components-admin.create-new-product-btn')

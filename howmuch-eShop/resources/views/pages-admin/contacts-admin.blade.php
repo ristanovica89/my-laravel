@@ -5,6 +5,8 @@
 @section('content')
 
 @include('components.success-flash-msg')
+@include('components.message-flash')
+
 <h1 class="text-center text-light mb-5">All <span class="text-warning">Contacts</span></h1>
 
 <table class="table table-dark table-hover">
