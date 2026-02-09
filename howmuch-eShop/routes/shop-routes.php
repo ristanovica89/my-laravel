@@ -10,17 +10,16 @@ use Illuminate\Support\Facades\Route;
 //                                    User
 /*************************************************************************************/
 
-Route::get('/', [HomePageController::class, 'index'])
-  ->name('home.index');
+Route::get('/', [HomePageController::class, 'index'])->name('home.index');
 
-// About
 Route::view('/about', 'about');
 
 // Contacts
-Route::controller(ContactController::class)->group(function(){
-  Route::get('/contact','index')->name('contact.index');
-  // Create Contact
-  Route::post('/contact','sendMessageFromContactPage')->name('contact.sendMessage');
+Route::controller(ContactController::class)
+  ->prefix('contact')
+  ->group(function () {
+  Route::get('/', 'index')->name('contact.index');
+  Route::post('/', 'sendMessageFromContactPage')->name('contact.sendMessage');
 });
 
 // Shop (Products)
@@ -39,33 +38,27 @@ Route::middleware(['auth', AdminCheckMiddleware::class])
     // Products
     //------------------------------------------------------------------------------------
     Route::view('/products/create', 'pages-admin/create-product-admin');
-    Route::controller(ProductController::class)->group(function(){
-      Route::get('/products','getAllProductsForAdmin')->name('products.getAllProductsForAdmin');
-      // Store Product
-      Route::post('/product-create','storeNewProductAdmin')->name('products.storeNewProductAdmin');
-      // Update Product
-      Route::post('/product-update/{product}','updateProductById')->name('products.updateProductById');
-      Route::get('/product-update/{product}','getProductForUpdateById')->name('products.getProductForUpdateById');
-      // Delete Product
-      Route::get('/product-delete/{product}','deleteProductById')->name('product.deleteProductById');
+    Route::controller(ProductController::class)
+      ->prefix('product')
+      ->group(function () {
+      Route::get('/', 'getAllProductsForAdmin')->name('products.getAllProductsForAdmin');
+      Route::post('/create', 'storeNewProductAdmin')->name('products.storeNewProductAdmin');
+      Route::post('/update/{product}', 'updateProductById')->name('products.updateProductById');
+      Route::get('/update/{product}', 'getProductForUpdateById')->name('products.getProductForUpdateById');
+      Route::get('/delete/{product}', 'deleteProductById')->name('product.deleteProductById');
     });
-    
+
     // Contacts
     //-----------------------------------------------------------------------------------
-    Route::controller(ContactController::class)->group(function(){
-      Route::get('/contacts','getAllContactsForAdmin')
-        ->name('contacts.getAllContactsForAdmin');
-      // Delete Contact
-      Route::get('/contact-delete/{contact}','deleteContactById')
-        ->name('contact.deleteContactById');
-        // Update Contact
-      Route::get('/contact-update/{contact}','getContactForUpdateById')
-        ->name('contacts.getContactForUpdateById');
-      Route::post('/contact-update/{contact}','updateContactById')
-        ->name('contacts.updateContactById');
+    Route::controller(ContactController::class)
+      ->prefix('contact')
+      ->group(function () {
+      Route::get('/', 'getAllContactsForAdmin')->name('contacts.getAllContactsForAdmin');
+      Route::get('/delete/{contact}', 'deleteContactById')->name('contact.deleteContactById');
+      Route::get('/update/{contact}', 'getContactForUpdateById')->name('contacts.getContactForUpdateById');
+      Route::post('/update/{contact}', 'updateContactById')->name('contacts.updateContactById');
     });
-    
-    
     // Users
+    //-------------------------------------------------------------------------------------
     Route::view('/users', 'pages-admin/users-admin');
   });
