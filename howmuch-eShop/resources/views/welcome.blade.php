@@ -32,7 +32,7 @@
         <p class="text-muted mb-3">Na stanju: {{ $product->amount }}</p>
 
         <div class="d-flex justify-content-end gap-2">
-          <a href="#" class="btn btn-outline-secondary btn">Pogledaj artikal</a>
+          <a href="{{ route('products.permalink' , $product) }}" class="btn btn-outline-secondary btn">Pogledaj artikal</a>
           <a href="#" class="btn btn-success btn">Dodaj u korpu</a>
         </div>
 

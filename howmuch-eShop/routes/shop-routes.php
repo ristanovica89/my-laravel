@@ -24,7 +24,16 @@ Route::controller(ContactController::class)
 });
 
 // Shop (Products)
-Route::get('/shop', [ProductController::class, 'index'])->name('products.index');
+Route::controller(ProductController::class)
+->name('products.')
+->group(function(){
+  Route::get('/shop', 'index')->name('index');
+  Route::get('/products/{product}', 'permalink')->name('permalink');
+});
+
+// Cart
+
+Route::view('/cart', 'cart');
 
 
 /*************************************************************************************/

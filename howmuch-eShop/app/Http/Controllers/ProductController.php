@@ -29,6 +29,11 @@ class ProductController extends Controller
         return view('pages-admin/products-admin', compact('products'));
     }
 
+    public function permalink(Product $product)
+    {
+        return view('permalink', compact('product'));
+    }
+
     // Create
     public function storeNewProductAdmin(SaveProductRequest $request)
     {
