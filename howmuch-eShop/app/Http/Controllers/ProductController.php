@@ -31,7 +31,19 @@ class ProductController extends Controller
 
     public function permalink(Product $product)
     {
-        return view('permalink', compact('product'));
+
+        $cart = session()->get('cart',[]);
+
+        // dostupna kolicina ili virtual stock
+        $cartAmount = $cart[$product->id]['amount'] ?? 0;
+        $available = $product->amount - $cartAmount;
+
+        $totalPrice = array_sum(array_map(fn($item)=> $item['price']*$item['amount'] , $cart));
+
+        $countItems = count($cart);
+
+
+        return view('permalink', compact('product', 'cart','available','totalPrice', 'countItems'));
     }
 
     // Create

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Http\Middleware\AdminCheckMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -34,8 +35,8 @@ Route::controller(ProductController::class)
 // Cart
 
 Route::view('/cart', 'cart');
-
-
+Route::post('/cart/add', [ShoppingCartController::class, 'addToCart'])->name('cart.addToCart');
+Route::post('/cart/clear', [ShoppingCartController::class, 'clearCart'])->name('cart.clear');
 /*************************************************************************************/
 //                                    Admin
 /*************************************************************************************/

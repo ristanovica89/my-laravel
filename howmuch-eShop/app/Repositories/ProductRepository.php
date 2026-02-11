@@ -21,7 +21,7 @@ class ProductRepository
 
   public function findById(int $id): Product
   {
-    return $this->product->where(['id', $id])->first();
+    return $this->product->where('id', $id)->first();
   }
 
   public function create(array $data)
