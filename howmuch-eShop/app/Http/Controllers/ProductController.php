@@ -6,12 +6,15 @@ use App\Http\Requests\SaveProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
 
-    public function __construct(private readonly ProductRepository $productRepository){}
+    public function __construct(
+            private readonly ProductRepository $productRepository,
+            private readonly CartService $cartService){}
 
     public function index()
     {
@@ -32,16 +35,14 @@ class ProductController extends Controller
     public function permalink(Product $product)
     {
 
-        $cart = session()->get('cart',[]);
+        $cart = $this->cartService->getCart();
 
         // dostupna kolicina ili virtual stock
-        $cartAmount = $cart[$product->id]['amount'] ?? 0;
+        $cartAmount = $this->cartService->getAmount($product->id);
         $available = $product->amount - $cartAmount;
 
-        $totalPrice = array_sum(array_map(fn($item)=> $item['price']*$item['amount'] , $cart));
-
+        $totalPrice = $this->cartService->cartTotalPrice();
         $countItems = count($cart);
-
 
         return view('permalink', compact('product', 'cart','available','totalPrice', 'countItems'));
     }

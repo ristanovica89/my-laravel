@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CartAddRequest;
 use App\Repositories\ProductRepository;
-use Illuminate\Support\Facades\Session;
+use App\Services\CartService;
 
 class ShoppingCartController extends Controller
 {
-    public function __construct(private readonly ProductRepository $productRepository){}
+    public function __construct(
+            private readonly ProductRepository $productRepository,
+            private readonly CartService $cartService){}
 
     public function addToCart(CartAddRequest $request)
     {
@@ -19,28 +21,26 @@ class ShoppingCartController extends Controller
             return back()->with('message', 'Out of stock!');
         }
 
-        $cart = session()->get('cart',[]);
-        
-        $productId = $product->id;
-        
-        if( isset($cart[$productId])){
-            $cart[$productId]['amount']+=$validated['amount'];
-        }else{
-            $cart[$productId] = [
-                'name' => $product->name,
-                'amount'=>$validated['amount'],
-                'price'=>$product->price,
-                'image'=>$product->image,
-            ];
-        }
+        $added = $this->cartService->add($product->id, $validated['amount']);
 
-        session()->put('cart', $cart);
+        if(! $added){
+            return back()->with('message', 'Failed to be added to a cart!');
+        }
 
         return redirect()
                 ->route('products.permalink', $product)
                 ->with('success', 'Product has been successfully added to a cart!');
-        
-        
+                
+    }
+
+    public function removeItem(int $productId)
+    {
+        $deleted = $this->cartService->remove($productId);
+
+        if(! $deleted){
+            return back()->with('message', 'Product is not added to cart!');
+        }
+        return back()->with('success', 'Product is successfully deleted from a cart!');
     }
 
     public function clearCart()

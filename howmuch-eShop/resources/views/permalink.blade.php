@@ -14,7 +14,7 @@
         <div class="col-lg-8 mb-4">
             <div class="card shadow-md border-0 p-3 h-100">
                 <div class="row g-3">
-                
+
                     <!-- Product Details -->
                     <form action="{{ route('cart.addToCart') }}" method="POST" class="col-md-6 d-flex flex-column">
                         @csrf
@@ -89,8 +89,8 @@
                 </h5>
 
                 <!-- Cart Item -->
-                
-                @foreach($cart as $item)
+
+                @foreach($cart as $productId => $item)
                 <div class="d-flex justify-content-between align-items-start border-bottom pb-2 mb-3">
                     <div>
                         <p class="fw-semibold mb-1">{{ $item['name'] }}</p>
@@ -98,7 +98,10 @@
                     </div>
                     <div class="text-end">
                         <p class="fw-semibold mb-1">{{ $item['price'] * $item['amount'] }} RSD</p>
-                        <button class="btn btn-sm btn-outline-danger">✕</button>
+                        <form action="{{ route('cart.remove', $productId) }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline-danger">✕</button>
+                        </form>
                     </div>
                 </div>
                 @endforeach
@@ -130,7 +133,7 @@
                             Nastavi ka plaćanju
                         </button>
                     </form>
-                    
+
 
                     <p class="text-muted small text-center mt-3">
                         Sigurno plaćanje • SSL enkripcija
