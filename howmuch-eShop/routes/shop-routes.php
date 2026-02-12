@@ -34,7 +34,7 @@ Route::controller(ProductController::class)
 
 // Cart
 
-Route::view('/cart', 'cart');
+Route::get('/cart', [ShoppingCartController::class, 'showCart'])->name('cart.show');
 Route::post('/cart/add', [ShoppingCartController::class, 'addToCart'])->name('cart.addToCart');
 Route::post('/cart/clear', [ShoppingCartController::class, 'clearCart'])->name('cart.clear');
 Route::post('/cart/delete/{productId}', [ShoppingCartController::class, 'removeItem'])->name('cart.remove');

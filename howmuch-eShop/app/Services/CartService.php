@@ -30,6 +30,12 @@ class CartService
 
   public function add(int $productId, int $amount): bool
   {
+    // *** Za kasnije ***
+    // optimizacija:
+    // $productIds = array_keys($cart);
+    // $products = Product::whereIn('id', $productIds)->get();
+    // cuvati u sessiji samo productId i quantity(amount) !!!
+
     $cart = $this->getCart();
     $product = $this->productRepository->findById($productId);
 

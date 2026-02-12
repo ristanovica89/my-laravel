@@ -12,6 +12,14 @@ class ShoppingCartController extends Controller
             private readonly ProductRepository $productRepository,
             private readonly CartService $cartService){}
 
+    public function showCart()
+    {
+        $cart = $this->cartService->getCart();
+        $totalPrice = $this->cartService->cartTotalPrice();
+
+        return view('cart', compact('cart', 'totalPrice'));
+    }
+
     public function addToCart(CartAddRequest $request)
     {
         $validated = $request->validated();

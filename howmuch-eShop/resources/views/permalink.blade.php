@@ -118,6 +118,14 @@
                 <!-- Cart Actions -->
                 <div class="d-grid gap-2 mt-4">
 
+                    <!-- Forma za nastavak ka plaćanju -->
+                    <form action="{{ route('cart.show') }}" method="GET">
+                        @csrf
+                        <button type="submit" class="btn btn-success w-100">
+                            Nastavi ka plaćanju
+                        </button>
+                    </form>
+
                     <!-- Forma za ispražnjenje korpe -->
                     <form action="{{ route('cart.clear') }}" method="POST">
                         @csrf
@@ -126,13 +134,6 @@
                         </button>
                     </form>
 
-                    <!-- Forma za nastavak ka plaćanju -->
-                    <form action="#" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-success w-100">
-                            Nastavi ka plaćanju
-                        </button>
-                    </form>
 
 
                     <p class="text-muted small text-center mt-3">
