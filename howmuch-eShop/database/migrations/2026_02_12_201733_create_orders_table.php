@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('status')->default('pending');
+            $table->decimal('total_price', 10, 2);
+            $table->string('guest_name')->nullable();
+            $table->string('guest_email')->nullable();
+            $table->text('address');
+            $table->string('phone_number');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 
