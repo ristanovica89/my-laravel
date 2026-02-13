@@ -4,6 +4,10 @@
 
 @section('content')
 
+@php  
+    $user = Auth::user() 
+@endphp
+
 <div class="container my-5">
     <h1 class="text-center mb-5">
         Checkout <span class="text-success">Korpa</span>
@@ -50,17 +54,17 @@
             <div class="card border-0 shadow-lg p-4" style="background:#f8f9fa;">
                 <h5 class="fw-bold mb-3">📦 Podaci o kupcu</h5>
 
-                <form action="#" method="POST">
+                <form action="{{ route('cart.checkout') }}" method="POST">
                     @csrf
 
                     <div class="mb-3">
                         <label class="form-label">Ime i prezime</label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name', 'Petar Petrović') }}" required>
+                        <input type="text" name="guest_name" class="form-control" value="{{ old('guest_name', $user->name ?? '') }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ old('email', 'petar@email.com') }}" required>
+                        <input type="email" name="guest_email" class="form-control" value="{{ old('guest_email', 'petar@email.com') }}" required>
                     </div>
 
                     <div class="mb-3">
@@ -75,10 +79,10 @@
 
                     <div class="d-grid gap-2 mt-3">
                         <button type="submit" class="btn btn-success btn-lg">
-                            Plati i završi kupovinu
+                            Potvrdi narudžbinu
                         </button>
 
-                        <a href="#" class="btn btn-outline-secondary">
+                        <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
                             Odustani i vrati se u shop
                         </a>
                     </div>

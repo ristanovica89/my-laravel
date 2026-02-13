@@ -38,6 +38,7 @@ Route::get('/cart', [ShoppingCartController::class, 'showCart'])->name('cart.sho
 Route::post('/cart/add', [ShoppingCartController::class, 'addToCart'])->name('cart.addToCart');
 Route::post('/cart/clear', [ShoppingCartController::class, 'clearCart'])->name('cart.clear');
 Route::post('/cart/delete/{productId}', [ShoppingCartController::class, 'removeItem'])->name('cart.remove');
+Route::post('/cart/checkout', [ShoppingCartController::class, 'checkout'])->name('cart.checkout');
 /*************************************************************************************/
 //                                    Admin
 /*************************************************************************************/

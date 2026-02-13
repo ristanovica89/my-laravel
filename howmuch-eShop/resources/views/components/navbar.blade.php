@@ -48,7 +48,20 @@ $cartCount = count($cart);
           </a>
         </li>
       </ul>
-
+      @if(Auth::user())
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="btn btn-outline-danger">
+          Logout
+        </button>
+      </form>
+      @else
+      <a href="/login">
+      <button type="submit" class="btn btn-outline-success">
+        Login
+      </button>
+      </a>
+      @endif
     </div>
   </div>
 </nav>

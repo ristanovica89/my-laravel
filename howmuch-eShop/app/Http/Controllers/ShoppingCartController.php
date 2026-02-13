@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CartAddRequest;
 use App\Repositories\ProductRepository;
 use App\Services\CartService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShoppingCartController extends Controller
 {
@@ -55,5 +57,13 @@ class ShoppingCartController extends Controller
     {
         session()->forget('cart');
         return back()->with('success', 'Cart is empty!');
+    }
+
+    public function checkout(Request $request)
+    {
+
+        $user = Auth::user();
+        
+        dd($user);
     }
 }
