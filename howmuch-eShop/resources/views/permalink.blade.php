@@ -12,7 +12,8 @@
 
         <!-- LEFT: Product Info + Image -->
         <div class="col-lg-8 mb-4">
-            <div class="card shadow-md border-0 p-3 h-100">
+            <div class="card border shadow-sm p-3 h-100"> <!-- border + shadow-sm -->
+
                 <div class="row g-3">
 
                     <!-- Product Details -->
@@ -44,20 +45,14 @@
                                 value="1"
                                 min="1"
                                 max="{{ $available }}">
-
                         </div>
 
                         <!-- Buttons -->
-                        <div class="d-flex gap-2 mb-4 mt-auto">
-                            <!-- SUBMIT -->
-                            <button type="submit" class="btn btn-success flex-fill">
+                        <div class="d-flex mb-4 mt-auto">
+                            <!-- SUBMIT dugme stilizovano kao outline -->
+                            <button type="submit" class="btn btn-outline-success flex-fill">
                                 Dodaj u korpu
                             </button>
-
-                            <!-- BUY NOW -->
-                            <a href="#" class="btn btn-outline-secondary flex-fill">
-                                Kupi odmah
-                            </a>
                         </div>
 
                         <!-- Info -->
@@ -73,7 +68,6 @@
                     <div class="col-md-6 d-flex align-items-center justify-content-center">
                         <img src="#" class="img-fluid rounded" alt="{{ $product->name }}">
                     </div>
-
 
                 </div>
             </div>
@@ -133,8 +127,6 @@
                             Isprazni korpu
                         </button>
                     </form>
-
-
 
                     <p class="text-muted small text-center mt-3">
                         Sigurno plaćanje • SSL enkripcija

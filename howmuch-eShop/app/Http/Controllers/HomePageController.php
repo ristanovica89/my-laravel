@@ -12,6 +12,8 @@ class HomePageController extends Controller
     public function index(){
         
         $latestProducts = $this->productRepository->getLatest(5);
+        
+        
 
         return view('welcome', compact('latestProducts'));
     }
