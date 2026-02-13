@@ -62,10 +62,19 @@ class ShoppingCartController extends Controller
     public function checkout(Request $request)
     {
 
+        $cart = $this->cartService->getCart();
+
+        if(count($cart) < 1){
+            return back()
+                    ->with('message', 'Your cart is empty')
+                    ->withInput();
+        }
+
+
         $user = Auth::user();
         
         $rules = [
-            
+            'total_price' => ''
         ];
     }
 }

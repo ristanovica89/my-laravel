@@ -3,6 +3,8 @@
 @section('title', 'Checkout')
 
 @section('content')
+@include('components.success-flash-msg')
+@include('components.message-flash')
 
 @php  
     $user = Auth::user() 
@@ -56,7 +58,7 @@
 
                 <form action="{{ route('cart.checkout') }}" method="POST">
                     @csrf
-
+                    <input type="hidden" name="total_price" value="{{ $totalPrice }}">
                     <div class="mb-3">
                         <label class="form-label">Ime i prezime</label>
                         <input type="text" 
@@ -64,7 +66,7 @@
                                class="form-control" 
                                value="{{ old('guest_name', $user->name ?? '') }}" 
                                required
-                               @auth disabled @endauth >
+                               @auth readonly @endauth >
                                
                     </div>
 
@@ -75,17 +77,17 @@
                                class="form-control" 
                                value="{{ old('guest_email', $user->email ?? '') }}" 
                                required
-                               @auth disabled @endauth>
+                               @auth readonly @endauth>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Telefon</label>
-                        <input type="text" name="phone" class="form-control" value="{{ old('phone', '') }}" required>
+                        <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Adresa isporuke</label>
-                        <textarea name="address" class="form-control" rows="2" required>{{ old('address', '') }}</textarea>
+                        <textarea name="address" class="form-control" rows="2" required>{{ old('address') }}</textarea>
                     </div>
 
                     <div class="d-grid gap-2 mt-3">
