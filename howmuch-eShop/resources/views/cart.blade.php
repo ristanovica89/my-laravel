@@ -59,22 +59,33 @@
 
                     <div class="mb-3">
                         <label class="form-label">Ime i prezime</label>
-                        <input type="text" name="guest_name" class="form-control" value="{{ old('guest_name', $user->name ?? '') }}" required>
+                        <input type="text" 
+                               name="guest_name" 
+                               class="form-control" 
+                               value="{{ old('guest_name', $user->name ?? '') }}" 
+                               required
+                               @auth disabled @endauth >
+                               
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" name="guest_email" class="form-control" value="{{ old('guest_email', 'petar@email.com') }}" required>
+                        <input type="email" 
+                               name="guest_email" 
+                               class="form-control" 
+                               value="{{ old('guest_email', $user->email ?? '') }}" 
+                               required
+                               @auth disabled @endauth>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Telefon</label>
-                        <input type="text" name="phone" class="form-control" value="{{ old('phone', '+381 60 123 456') }}" required>
+                        <input type="text" name="phone" class="form-control" value="{{ old('phone', '') }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Adresa isporuke</label>
-                        <textarea name="address" class="form-control" rows="2" required>{{ old('address', 'Bulevar Kralja Aleksandra 12') }}</textarea>
+                        <textarea name="address" class="form-control" rows="2" required>{{ old('address', '') }}</textarea>
                     </div>
 
                     <div class="d-grid gap-2 mt-3">

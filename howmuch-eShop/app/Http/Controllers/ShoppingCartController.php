@@ -64,6 +64,8 @@ class ShoppingCartController extends Controller
 
         $user = Auth::user();
         
-        dd($user);
+        $rules = [
+            
+        ];
     }
 }
