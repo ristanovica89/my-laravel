@@ -40,4 +40,9 @@ class ProductRepository
     return (bool)$product->delete();
   }
 
+  public function findManyByIds(array $ids)
+    {
+        return Product::whereIn('id', $ids)->get()->keyBy('id');
+    }
+
 }

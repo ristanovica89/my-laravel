@@ -22,6 +22,23 @@ class CartService
     return $cart[$productId]['amount'] ?? 0;
   }
 
+  public function checkStock(): array
+  {
+    $cart = $this->getCart();
+
+    $productIds = array_keys($cart);
+    $products = $this->productRepository->findManyByIds($productIds);
+
+    return collect($cart)
+      ->filter(
+        fn($item, $productId) =>
+        !isset($products[$productId]) || $products[$productId]->amount < $item['amount']
+      )
+      ->keys()
+      ->map(fn($id) => $products[$id]->name ?? 'Unknown product')
+      ->toArray();
+  }
+
   public function cartTotalPrice()
   {
     $cart = $this->getCart();
