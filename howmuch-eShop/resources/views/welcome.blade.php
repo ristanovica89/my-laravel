@@ -9,6 +9,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
+@include('components.success-flash-msg')
+@include('components.message-flash')
 
 <h1 class="text-center mb-5">Welcome To <span class="text-success">HowMuch-eShop</span></h1>
 

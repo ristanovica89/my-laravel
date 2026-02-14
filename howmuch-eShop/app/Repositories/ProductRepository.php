@@ -42,7 +42,7 @@ class ProductRepository
 
   public function findManyByIds(array $ids)
     {
-        return Product::whereIn('id', $ids)->get()->keyBy('id');
+        return $this->product->whereIn('id', $ids)->get()->keyBy('id');
     }
 
 }

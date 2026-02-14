@@ -58,7 +58,6 @@
 
                 <form action="{{ route('cart.checkout') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="total_price" value="{{ $totalPrice }}">
                     <div class="mb-3">
                         <label class="form-label">Ime i prezime</label>
                         <input type="text" 
@@ -82,7 +81,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Telefon</label>
-                        <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" required>
+                        <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number') }}" required>
                     </div>
 
                     <div class="mb-3">

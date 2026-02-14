@@ -22,12 +22,9 @@ class CartService
     return $cart[$productId]['amount'] ?? 0;
   }
 
-  public function checkStock(): array
+  public function checkStock($products): array
   {
     $cart = $this->getCart();
-
-    $productIds = array_keys($cart);
-    $products = $this->productRepository->findManyByIds($productIds);
 
     return collect($cart)
       ->filter(
@@ -43,6 +40,24 @@ class CartService
   {
     $cart = $this->getCart();
     return array_sum(array_map(fn($item) => $item['price'] * $item['amount'], $cart));
+  }
+
+  public function totalPrice($products): float
+  {
+    $cart = $this->getCart();
+    if(empty($cart)){
+      return 0;
+    }
+
+    $total = 0;
+    foreach( $products as $product){
+      if(! isset($cart[$product->id])){
+        continue;
+      }
+
+      $total += $product->price * $cart[$product->id]['amount'];    
+    }
+    return $total;
   }
 
   public function add(int $productId, int $amount): bool

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CartAddRequest;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Repositories\ProductRepository;
 use App\Services\CartService;
 use Illuminate\Http\Request;
@@ -63,27 +65,66 @@ class ShoppingCartController extends Controller
     {
 
         $cart = $this->cartService->getCart();
-
-        if (count($cart) < 1) {
+     
+        $productIds = array_keys($cart);
+        $products = $this->productRepository->findManyByIds($productIds);
+        
+        if (empty($cart)) {
             return back()
                 ->with('message', 'Your cart is empty')
                 ->withInput();
         }
 
-        $outOfStock = $this->cartService->checkStock();
-
-        if (!empty($outOfStock)) {
+        $outOfStock = $this->cartService->checkStock($products);
+    
+        if (! empty($outOfStock)) {
             return back()
                 ->with('message', 'Products out of stock: ' . implode(', ', $outOfStock))
                 ->withInput();
         }
 
-        $user = Auth::user();
-
+        $totalPrice = $this->cartService->totalPrice($products);
+        
         $rules = [
-            'total_price' => ''
+            'phone_number' => 'required|min:7|max:16',
+            'address' => 'required|max:255',
         ];
+
+        $user = Auth::user();
+       
+        if(! $user){
+            $rules['guest_name'] = 'required|string';
+            $rules['guest_email'] = 'required|email';
+        }
+
+        $validated = $request->validate($rules); 
+
+        $orderData = [
+            'phone_number' => $validated['phone_number'],
+            'address' => $validated['address'],
+            'total_price' => $totalPrice,
+            'user_id' => $user ? $user->id : null,
+            'guest_name' => $user ? null : $validated['guest_name'],
+            'guest_email' => $user ? null : $validated['guest_email'],
+        ];
+        
+        $order = Order::create($orderData);
+        $orderId = $order->id;
+        
+        foreach($cart as $productId => $item){
+            
+            OrderItem::create([
+                'order_id' => $orderId,
+                'product_id' => $productId,
+                'amount' => $item['amount'],
+                'price' => $item['amount'] * $products[$productId]->price,
+            ]);
+        }
+        
+        session()->forget('cart');
+
+        return redirect()->route('home.index')->with('success', 'Your order is successfully placed!');
+
     }
 
-    private function checkAvailableAmount($cart,) {}
 }
