@@ -112,13 +112,16 @@ class ShoppingCartController extends Controller
         $orderId = $order->id;
         
         foreach($cart as $productId => $item){
-            
+
             OrderItem::create([
                 'order_id' => $orderId,
                 'product_id' => $productId,
                 'amount' => $item['amount'],
                 'price' => $item['amount'] * $products[$productId]->price,
             ]);
+
+            $products[$productId]->amount -= $item['amount'];
+            $products[$productId]->save();
         }
         
         session()->forget('cart');
