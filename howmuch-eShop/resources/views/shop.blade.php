@@ -26,7 +26,7 @@
           </p>
 
           <p class="text-muted mb-3">
-            Na stanju: {{ $product->amount }}
+            {{ $product->amount > 0 ? 'Na stanju: '. $product->amount : 'Nema na stanju.' }}
           </p>
 
           <div class="mt-auto">
