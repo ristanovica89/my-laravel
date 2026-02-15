@@ -13,8 +13,6 @@ class HomePageController extends Controller
         
         $latestProducts = $this->productRepository->getLatest(5);
         
-        
-
         return view('welcome', compact('latestProducts'));
     }
 }

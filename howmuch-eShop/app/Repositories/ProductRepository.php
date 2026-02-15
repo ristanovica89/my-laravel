@@ -16,7 +16,11 @@ class ProductRepository
 
   public function getLatest(int $quantity)
   {
-    return $this->product->latest()->take($quantity)->get();
+    return $this->product
+          ->where('amount', '>', 0)
+          ->latest()
+          ->limit($quantity)
+          ->get();
   }
 
   public function findById(int $id): Product

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\Session;
 
@@ -97,4 +99,54 @@ class CartService
     Session::put($this->sessionKey, $cart);
     return true;
   }
+
+  public function checkout(array $cart, array $data, $user = null)
+{
+    $productIds = array_keys($cart);
+    $products = $this->productRepository->findManyByIds($productIds);
+
+    $outOfStock = $this->checkStock($products, $cart);
+    if (!empty($outOfStock)) {
+        throw new \Exception('Products out of stock: ' . implode(', ', $outOfStock));
+    }
+
+    $rules = [
+        'phone_number' => 'required|min:7|max:16',
+        'address' => 'required|max:255',
+    ];
+
+    if (!$user) {
+        $rules['guest_name'] = 'required|string';
+        $rules['guest_email'] = 'required|email';
+    }
+
+    $validated = validator($data, $rules)->validate();
+
+    $totalPrice = $this->totalPrice($products, $cart);
+
+    $order = Order::create([
+        'phone_number' => $validated['phone_number'],
+        'address' => $validated['address'],
+        'total_price' => $totalPrice,
+        'user_id' => $user ? $user->id : null,
+        'guest_name' => $user ? null : $validated['guest_name'],
+        'guest_email' => $user ? null : $validated['guest_email'],
+    ]);
+
+    foreach ($cart as $productId => $item) {
+        $product = $products[$productId];
+
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $productId,
+            'amount' => $item['amount'],
+            'price' => $item['amount'] * $product->price,
+        ]);
+
+        $product->amount -= $item['amount'];
+        $product->save();
+    }
+
+    return $order;
+}
 }
