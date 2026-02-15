@@ -20,25 +20,30 @@ Route::controller(ContactController::class)
   ->prefix('contact')
   ->name('contact.')
   ->group(function () {
-  Route::get('/', 'index')->name('index');
-  Route::post('/send', 'sendMessageFromContactPage')->name('sendMessage');
-});
+    Route::get('/', 'index')->name('index');
+    Route::post('/send', 'sendMessageFromContactPage')->name('sendMessage');
+  });
 
 // Shop (Products)
 Route::controller(ProductController::class)
-->name('products.')
-->group(function(){
-  Route::get('/shop', 'index')->name('index');
-  Route::get('/products/{product}', 'permalink')->name('permalink');
-});
+  ->name('products.')
+  ->group(function () {
+    Route::get('/shop', 'index')->name('index');
+    Route::get('/products/{product}', 'permalink')->name('permalink');
+  });
 
 // Cart
+Route::controller(ShoppingCartController::class)
+  ->prefix('cart')
+  ->name('cart.')
+  ->group(function () {
+    Route::get('/', 'showCart')->name('show');
+    Route::post('/add', 'addToCart')->name('addToCart');
+    Route::post('/clear', 'clearCart')->name('clear');
+    Route::post('/delete/{productId}', 'removeItem')->name('remove');
+    Route::post('/checkout', 'checkout')->name('checkout');
+  });
 
-Route::get('/cart', [ShoppingCartController::class, 'showCart'])->name('cart.show');
-Route::post('/cart/add', [ShoppingCartController::class, 'addToCart'])->name('cart.addToCart');
-Route::post('/cart/clear', [ShoppingCartController::class, 'clearCart'])->name('cart.clear');
-Route::post('/cart/delete/{productId}', [ShoppingCartController::class, 'removeItem'])->name('cart.remove');
-Route::post('/cart/checkout', [ShoppingCartController::class, 'checkout'])->name('cart.checkout');
 /*************************************************************************************/
 //                                    Admin
 /*************************************************************************************/
@@ -55,12 +60,12 @@ Route::middleware(['auth', AdminCheckMiddleware::class])
       ->prefix('products')
       ->name('products.')
       ->group(function () {
-      Route::get('/', 'getAllProductsForAdmin')->name('getAllProductsForAdmin');
-      Route::post('/create', 'storeNewProductAdmin')->name('storeNewProductAdmin');
-      Route::post('/update/{product}', 'updateProductById')->name('updateProductById');
-      Route::get('/update/{product}', 'getProductForUpdateById')->name('getProductForUpdateById');
-      Route::get('/delete/{product}', 'deleteProductById')->name('deleteProductById');
-    });
+        Route::get('/', 'getAllProductsForAdmin')->name('getAllProductsForAdmin');
+        Route::post('/create', 'storeNewProductAdmin')->name('storeNewProductAdmin');
+        Route::post('/update/{product}', 'updateProductById')->name('updateProductById');
+        Route::get('/update/{product}', 'getProductForUpdateById')->name('getProductForUpdateById');
+        Route::get('/delete/{product}', 'deleteProductById')->name('deleteProductById');
+      });
 
     // Contacts
     //-----------------------------------------------------------------------------------
@@ -68,11 +73,11 @@ Route::middleware(['auth', AdminCheckMiddleware::class])
       ->prefix('contact')
       ->name('contact.')
       ->group(function () {
-      Route::get('/all', 'getAllContactsForAdmin')->name('getAllContactsForAdmin');
-      Route::get('/delete/{contact}', 'deleteContactById')->name('deleteContactById');
-      Route::get('/update/{contact}', 'getContactForUpdateById')->name('getContactForUpdateById');
-      Route::post('/update/{contact}', 'updateContactById')->name('updateContactById');
-    });
+        Route::get('/all', 'getAllContactsForAdmin')->name('getAllContactsForAdmin');
+        Route::get('/delete/{contact}', 'deleteContactById')->name('deleteContactById');
+        Route::get('/update/{contact}', 'getContactForUpdateById')->name('getContactForUpdateById');
+        Route::post('/update/{contact}', 'updateContactById')->name('updateContactById');
+      });
     // Users
     //-------------------------------------------------------------------------------------
     Route::view('/users', 'pages-admin/users-admin')->name('admin.users');
