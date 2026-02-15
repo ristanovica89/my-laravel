@@ -24,7 +24,7 @@
                         <h2 class="fw-bold mb-3">{{ $product->name }}</h2>
 
                         <p class="text-muted mb-2">
-                            <strong>Kategorija:</strong> Elektronika
+                            <strong>Kategorija:</strong> /
                         </p>
 
                         <p class="mb-3 text-secondary">

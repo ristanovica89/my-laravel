@@ -30,12 +30,16 @@
           </p>
 
           <div class="mt-auto">
-            <a href="{{ route('products.permalink' , $product) }}" class="btn btn-outline-secondary btn-sm w-100 mb-2">
-              Pogledaj artikal
-            </a>
-            <a href="#" class="btn btn-success btn-sm w-100">
+            @if($product->amount > 0)
+            <a href="{{ route('products.permalink' , $product) }}" class="btn btn-success btn-sm w-100">
               Dodaj u korpu
             </a>
+            @else
+            <a href="{{ route('home.index') }}" class="btn btn-outline-danger btn-sm w-100">
+              Vrati se na početnu...
+            </a>
+            @endif
+
           </div>
 
         </div>

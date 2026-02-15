@@ -86,6 +86,6 @@ class ShoppingCartController extends Controller
 
         session()->forget('cart');
 
-        return redirect()->route('home.index')->with('success', 'Your order has been successfully placed!');
+        return view('thank-you')->with('success', 'Your order has been successfully placed!');
     }
 }
