@@ -71,15 +71,21 @@ class ShoppingCartController extends Controller
 
         $user = Auth::user();
 
-        $checkoutData = $request->only([
-            'phone_number',
-            'address',
-            'guest_name',
-            'guest_email'
-        ]);
+        
+        $rules = [
+            'phone_number' => 'required|string|min:7|max:16',
+            'address' => 'required|max:255',
+        ];
+
+        if (!$user) {
+            $rules['guest_name'] = 'required|string';
+            $rules['guest_email'] = 'required|email';
+        }
+
+        $validated = $request->validate($rules);
 
         try {
-            $this->cartService->checkout($cart, $checkoutData, $user);
+            $this->cartService->checkout($cart, $validated, $user);
         } catch (\Exception $e) {
             return back()->with('message', $e->getMessage())->withInput();
         }

@@ -5,6 +5,7 @@
 @section('content')
 @include('components.success-flash-msg')
 @include('components.message-flash')
+@include('components.errors-flash-msg')
 
 @php  
     $user = Auth::user() 

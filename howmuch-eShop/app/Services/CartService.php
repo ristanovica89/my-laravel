@@ -110,27 +110,15 @@ class CartService
         throw new \Exception('Products out of stock: ' . implode(', ', $outOfStock));
     }
 
-    $rules = [
-        'phone_number' => 'required|min:7|max:16',
-        'address' => 'required|max:255',
-    ];
-
-    if (!$user) {
-        $rules['guest_name'] = 'required|string';
-        $rules['guest_email'] = 'required|email';
-    }
-
-    $validated = validator($data, $rules)->validate();
-
     $totalPrice = $this->totalPrice($products, $cart);
 
     $order = Order::create([
-        'phone_number' => $validated['phone_number'],
-        'address' => $validated['address'],
+        'phone_number' => $data['phone_number'],
+        'address' => $data['address'],
         'total_price' => $totalPrice,
         'user_id' => $user ? $user->id : null,
-        'guest_name' => $user ? null : $validated['guest_name'],
-        'guest_email' => $user ? null : $validated['guest_email'],
+        'guest_name' => $user ? null : $data['guest_name'],
+        'guest_email' => $user ? null : $data['guest_email'],
     ]);
 
     foreach ($cart as $productId => $item) {
