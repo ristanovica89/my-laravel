@@ -47,17 +47,17 @@ class CartService
   public function totalPrice($products): float
   {
     $cart = $this->getCart();
-    if(empty($cart)){
+    if (empty($cart)) {
       return 0;
     }
 
     $total = 0;
-    foreach( $products as $product){
-      if(! isset($cart[$product->id])){
+    foreach ($products as $product) {
+      if (! isset($cart[$product->id])) {
         continue;
       }
 
-      $total += $product->price * $cart[$product->id]['amount'];    
+      $total += $product->price * $cart[$product->id]['amount'];
     }
     return $total;
   }
@@ -101,40 +101,40 @@ class CartService
   }
 
   public function checkout(array $cart, array $data, $user = null)
-{
+  {
     $productIds = array_keys($cart);
     $products = $this->productRepository->findManyByIds($productIds);
 
     $outOfStock = $this->checkStock($products, $cart);
     if (!empty($outOfStock)) {
-        throw new \Exception('Products out of stock: ' . implode(', ', $outOfStock));
+      throw new \Exception('Products out of stock: ' . implode(', ', $outOfStock));
     }
 
     $totalPrice = $this->totalPrice($products, $cart);
 
     $order = Order::create([
-        'phone_number' => $data['phone_number'],
-        'address' => $data['address'],
-        'total_price' => $totalPrice,
-        'user_id' => $user ? $user->id : null,
-        'guest_name' => $user ? null : $data['guest_name'],
-        'guest_email' => $user ? null : $data['guest_email'],
+      'phone_number' => $data['phone_number'],
+      'address' => $data['address'],
+      'total_price' => $totalPrice,
+      'user_id' => $user ? $user->id : null,
+      'guest_name' => $user ? null : $data['guest_name'],
+      'guest_email' => $user ? null : $data['guest_email'],
     ]);
 
     foreach ($cart as $productId => $item) {
-        $product = $products[$productId];
+      $product = $products[$productId];
 
-        OrderItem::create([
-            'order_id' => $order->id,
-            'product_id' => $productId,
-            'amount' => $item['amount'],
-            'price' => $item['amount'] * $product->price,
-        ]);
+      OrderItem::create([
+        'order_id' => $order->id,
+        'product_id' => $productId,
+        'amount' => $item['amount'],
+        'price' => $item['amount'] * $product->price,
+      ]);
 
-        $product->amount -= $item['amount'];
-        $product->save();
+      $product->amount -= $item['amount'];
+      $product->save();
     }
 
     return $order;
-}
+  }
 }

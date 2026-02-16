@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CartAddRequest;
-use App\Models\Order;
-use App\Models\OrderItem;
 use App\Repositories\ProductRepository;
 use App\Services\CartService;
 use Illuminate\Http\Request;
@@ -71,7 +69,7 @@ class ShoppingCartController extends Controller
 
         $user = Auth::user();
 
-        
+
         $rules = [
             'phone_number' => 'required|string|min:7|max:16',
             'address' => 'required|max:255',
