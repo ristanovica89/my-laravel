@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
@@ -26,15 +26,9 @@ class ProductController extends Controller
         return view('welcome', compact('products'));
     }
 
-    public function create(Request $request)
+    public function create(StoreProductRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'description' => 'required|max:255',
-            'price' => 'required|numeric',
-        ]);
-
-        Product::create($validated);
+        Product::create($request->validated());
 
         Cache::forget('allProducts');
 
