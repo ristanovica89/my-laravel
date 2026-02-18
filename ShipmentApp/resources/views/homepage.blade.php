@@ -40,14 +40,10 @@
             lg:grid-cols-3 
             xl:grid-cols-4">
 
-  @include('shipment-show')
-  @include('shipment-show')
-  @include('shipment-show')
-  @include('shipment-show')
-  @include('shipment-show')
-  @include('shipment-show')
-  @include('shipment-show')
-  @include('shipment-show')
+            @foreach($shipments as $shipment)
+              @include('shipments.card')
+            @endforeach
+  
 
 </div>
 

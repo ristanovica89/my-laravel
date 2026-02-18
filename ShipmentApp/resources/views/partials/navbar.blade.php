@@ -9,9 +9,9 @@
         <!-- Links -->
         <div class="hidden md:flex space-x-8 font-medium text-gray-300">
             <a href="#" class="hover:text-accent transition">Home</a>
-            <a href="#" class="hover:text-accent transition">Shipments</a>
             <a href="#" class="hover:text-accent transition">Pricing</a>
             <a href="#" class="hover:text-accent transition">Contact</a>
+            <a href="/shipments/create" class="hover:text-accent transition">New Shipment</a>
         </div>
 
         <!-- CTA -->
