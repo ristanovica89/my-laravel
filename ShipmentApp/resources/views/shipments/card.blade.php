@@ -56,7 +56,7 @@
     <div class="flex justify-between items-center pt-4 border-t border-gray-700 text-xs text-gray-500">
         <span>User ID: {{ $shipment->user_id ?? 1 }}</span>
 
-        <a href="#" class="hover:text-accent transition">
+        <a href="{{ route('shipments.show', $shipment) }}" class="hover:text-accent transition">
             View Details →
         </a>
     </div>

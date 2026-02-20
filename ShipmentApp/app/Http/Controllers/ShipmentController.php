@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreShipmentRequest;
 use App\Models\Shipment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ShipmentController extends Controller
 {
@@ -30,6 +31,8 @@ class ShipmentController extends Controller
     public function store(StoreShipmentRequest $request)
     {
         Shipment::create($request->validated());
+        
+        Cache::forget('unassignedShipments');
 
         return back()->with('success', 'Successfully created!');
     }
@@ -39,7 +42,7 @@ class ShipmentController extends Controller
      */
     public function show(Shipment $shipment)
     {
-        //
+        return view('shipments.show', compact('shipment'));
     }
 
     /**
