@@ -5,7 +5,9 @@
 @section('content')
 @include('flash-msg.success')
 @include('flash-msg.error')
-
+@php
+    $statuses = \App\Models\Shipment::STATUSES;
+@endphp
 <div class="max-w-3xl mx-auto bg-secondary rounded-2xl shadow-2xl shadow-black/30 p-10 border border-gray-700">
 
     <h1 class="text-3xl font-bold mb-8 text-white text-center">
@@ -77,12 +79,10 @@
             <label class="block text-gray-300 mb-2">Status</label>
             <select name="status"
                 class="w-full bg-primary border border-gray-600 rounded-lg px-4 py-3 text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent">
-
-                <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
-                <option value="In Transit" {{ old('status') == 'In Transit' ? 'selected' : '' }}>In Transit</option>
-                <option value="Delivered" {{ old('status') == 'Delivered' ? 'selected' : '' }}>Delivered</option>
-                <option value="Cancelled" {{ old('status') == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
-
+                @foreach($statuses as $status)
+                    <option value="{{ $status }}">{{ $status }}</option>
+                @endforeach
+            
             </select>
         </div>
 
@@ -116,7 +116,7 @@
                 Reset
             </button>
 
-            <a href="{{ route('shipments.index') }}"
+            <a href="{{ route('home.index') }}"
                 class="px-6 py-3 rounded-lg font-semibold border border-accent text-accent hover:bg-accent hover:text-primary transition">
                 Back to Shipments
             </a>

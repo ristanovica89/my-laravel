@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Shipment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,11 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ShipmentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
@@ -28,16 +24,11 @@ class ShipmentFactory extends Factory
 
             'price' => $this->faker->randomFloat(2, 50, 5000),
 
-            'status' => $this->faker->randomElement([
-                'pending',
-                'active',
-                'completed',
-                'cancelled'
-            ]),
+            'status' => $this->faker->randomElement(Shipment::STATUSES),
 
             'details' => $this->faker->paragraph(),
 
-            'user_id' => User::factory(), 
+            'user_id' => User::factory(),
         ];
     }
 }
