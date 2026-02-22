@@ -13,7 +13,16 @@
                 </div>
             </div>
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
+                <div class="max-w-xl space-y-6">
+
+                    @if(auth()->user()->avatar)
+                    <div class="mb-4">
+                        <img src="{{ Storage::url('images/avatars/' . auth()->user()->avatar) }}"
+                            alt="Profilna slika"
+                            class="w-32 h-32 rounded-full object-cover border border-gray-300 dark:border-gray-600">
+                    </div>
+                    @endif
+
                     <form action="{{ route('profile.changeAvatar') }}"
                         method="POST"
                         enctype="multipart/form-data"
@@ -35,9 +44,9 @@
                                 name="avatar"
                                 accept="image/*"
                                 class="block w-full text-sm text-gray-900
-                                      border border-gray-300 rounded-lg cursor-pointer
-                                      bg-gray-50 focus:outline-none dark:bg-gray-700 dark:border-gray-600
-                                      dark:text-gray-200">
+                              border border-gray-300 rounded-lg cursor-pointer
+                              bg-gray-50 focus:outline-none dark:bg-gray-700 dark:border-gray-600
+                              dark:text-gray-200">
 
                             @error('avatar')
                             <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
@@ -47,8 +56,8 @@
                         <div class="flex items-center justify-start mt-4">
                             <button type="submit"
                                 class="px-4 py-2 bg-gray-800 text-white rounded-lg 
-                                        hover:bg-gray-900 focus:outline-none focus:ring-2 
-                                        focus:ring-gray-700 transition">
+                               hover:bg-gray-900 focus:outline-none focus:ring-2 
+                               focus:ring-gray-700 transition">
                                 Save
                             </button>
                         </div>

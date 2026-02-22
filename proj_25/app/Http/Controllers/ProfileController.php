@@ -76,5 +76,7 @@ class ProfileController extends Controller
             'avatar' => $imgName
         ]);
 
+        return back();
+
     }
 }
