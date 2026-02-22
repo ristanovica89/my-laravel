@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewAvatarRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -56,5 +58,23 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function changeAvatar(NewAvatarRequest $request)
+    {
+        
+        $user = $request->user();
+
+        if($user->avatar){
+            Storage::disk('public')->delete('images/avatars/'.$user->avatar);
+        }
+        
+        $filePath = $request->file('avatar')->store('images/avatars','public');
+        $imgName = basename($filePath);
+
+        $user->update([
+            'avatar' => $imgName
+        ]);
+
     }
 }
