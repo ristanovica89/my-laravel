@@ -30,6 +30,7 @@ class ShipmentController extends Controller
      */
     public function store(StoreShipmentRequest $request)
     {
+        dd($request->validated());
         Shipment::create($request->validated());
         
         Cache::forget('unassignedShipments');

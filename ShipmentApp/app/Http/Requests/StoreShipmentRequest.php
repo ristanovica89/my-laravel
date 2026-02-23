@@ -25,6 +25,8 @@ class StoreShipmentRequest extends FormRequest
             'status'        => ['required', 'string', Rule::in(Shipment::STATUSES)],
             'details'       => ['nullable', 'string', 'max:1000'],
             'user_id'       => ['required', 'integer', 'exists:users,id'],
+            'documents'     => ['nullable', 'array'],
+            'documents.*'   => ['file', 'mimes:jpg,jpeg,webp,png,doc,docx,pdf', 'max:10240'],
         ];
     }
 
