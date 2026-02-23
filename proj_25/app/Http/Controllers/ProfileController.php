@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NewAvatarRequest;
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Traits\AvatarTrait;
+use App\Traits\ImageUpload;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
 
-    use AvatarTrait;
+    use ImageUpload;
 
     /**
      * Display the user's profile form.
@@ -68,10 +68,10 @@ class ProfileController extends Controller
     {
        
         $user = $request->user();
-        
+        $path = 'images/avatars/';
         $file = $request->file('avatar');
 
-        $imageName = $this->saveAvatar($file, $user->avatar);
+        $imageName = $this->saveAvatar($file, $path, $user->avatar);
         
         $user->update([
             'avatar' => $imageName

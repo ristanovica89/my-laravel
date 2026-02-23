@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
-trait AvatarTrait
+trait ImageUpload
 {
 
-  public function saveAvatar(UploadedFile $file, ?string $oldAvatar = null): string
+  public function saveAvatar(UploadedFile $file, string $path, ?string $oldAvatar = null): string
   {
     if ($oldAvatar) {
-      Storage::disk('public')->delete('images/avatars/' . $oldAvatar);
+      Storage::disk('public')->delete($path . $oldAvatar);
     }
 
     $imageName = uniqid() . '.webp';
@@ -23,7 +23,7 @@ trait AvatarTrait
 
     $image = $manager->read($file)->toWebp(20);
 
-    Storage::disk('public')->put('images/avatars/'. $imageName , (string)$image );
+    Storage::disk('public')->put($path . $imageName , (string)$image );
 
     return $imageName;
   }
