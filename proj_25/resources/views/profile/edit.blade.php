@@ -19,7 +19,7 @@
                     <div class="mb-4">
                         <img src="{{ Storage::url('images/avatars/' . auth()->user()->avatar) }}"
                             alt="Profilna slika"
-                            class="w-32 h-32 rounded-full object-cover border border-gray-300 dark:border-gray-600">
+                            class="w-16 h-16 rounded-full object-cover border border-gray-300 dark:border-gray-600">
                     </div>
                     @endif
 

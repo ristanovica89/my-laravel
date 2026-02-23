@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NewAvatarRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Traits\AvatarTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+
 
 class ProfileController extends Controller
 {
+
+    use AvatarTrait;
+
     /**
      * Display the user's profile form.
      */
@@ -62,21 +66,17 @@ class ProfileController extends Controller
 
     public function changeAvatar(NewAvatarRequest $request)
     {
-        
+       
         $user = $request->user();
-
-        if($user->avatar){
-            Storage::disk('public')->delete('images/avatars/'.$user->avatar);
-        }
         
-        $filePath = $request->file('avatar')->store('images/avatars','public');
-        $imgName = basename($filePath);
+        $file = $request->file('avatar');
 
+        $imageName = $this->saveAvatar($file, $user->avatar);
+        
         $user->update([
-            'avatar' => $imgName
+            'avatar' => $imageName
         ]);
 
         return back();
-
     }
 }
