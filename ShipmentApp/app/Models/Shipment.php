@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Shipment extends Model
 {
@@ -43,7 +44,7 @@ class Shipment extends Model
         'user_id',
     ];
 
-    public function setStatusAttribute($status)
+    public function setStatusAttribute($status): void
     {
         $status = strtolower(trim($status));
 
@@ -51,5 +52,10 @@ class Shipment extends Model
             throw new \InvalidArgumentException("Invalid shipment status: {$status}");
         }
         $this->attributes['status'] = $status;
+    }
+
+    public function documents(): HasMany
+    {
+        return $this->hasMany(ShipmentDocument::class);
     }
 }
