@@ -5,9 +5,9 @@
 @section('content')
 
 @php
-    $status = $shipment->status ?? \App\Models\Shipment::STATUS_UNASSIGNED;
-    $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status] 
-        ?? 'bg-gray-500/20 text-gray-400 border border-gray-500/40';
+$status = $shipment->status ?? \App\Models\Shipment::STATUS_UNASSIGNED;
+$statusClasses = \App\Models\Shipment::STATUS_COLORS[$status]
+?? 'bg-gray-500/20 text-gray-400 border border-gray-500/40';
 @endphp
 
 <div class="max-w-4xl mx-auto">
@@ -83,17 +83,70 @@
             </div>
         </div>
 
+        <!-- Documents -->
+        @if(isset($shipment_documents) && $shipment_documents->count())
+        <div class="mb-10">
+            <p class="text-gray-400 text-sm mb-4">Documents</p>
+
+            <div class="grid md:grid-cols-2 gap-4">
+
+                @foreach($shipment_documents as $document)
+
+                <div class="bg-primary border border-gray-700 rounded-xl p-5 
+                                hover:shadow-lg hover:shadow-black/30 
+                                hover:border-accent/60 transition duration-200">
+
+                    <div class="flex items-start justify-between">
+
+                        <div class="flex items-center gap-4">
+
+                            <!-- File Badge -->
+                            <div class="w-12 h-12 flex items-center justify-center 
+                            rounded-xl border {{ $document->file_color }} font-bold text-sm uppercase">
+                                {{ $document->file_extension }}
+                            </div>
+
+                            <!-- File Info -->
+                            <div>
+                                <p class="text-gray-200 font-semibold">
+                                    {{ $document->original_name }}
+                                </p>
+
+                                <p class="text-gray-500 text-xs mt-1">{{ $document->file_size_kb }}</p>
+                            </div>
+
+                        </div>
+
+                        <!-- Actions -->
+                        <a href="#"
+                            class="text-sm font-semibold px-3 py-2 rounded-lg
+                                      border border-accent text-accent
+                                      hover:bg-accent hover:text-primary
+                                      transition">
+                            Download
+                        </a>
+
+                    </div>
+
+                </div>
+
+                @endforeach
+
+            </div>
+        </div>
+        @endif
+
         <!-- Actions -->
         <div class="flex flex-wrap gap-4 justify-between border-t border-gray-700 pt-6">
 
             <a href="#"
-               class="bg-accent text-primary px-6 py-3 rounded-lg font-semibold 
+                class="bg-accent text-primary px-6 py-3 rounded-lg font-semibold 
                       hover:bg-accentSoft transition shadow-lg shadow-accent/30">
                 Edit Shipment
             </a>
 
             <a href="{{ route('home.index') }}"
-               class="px-6 py-3 rounded-lg font-semibold border border-accent 
+                class="px-6 py-3 rounded-lg font-semibold border border-accent 
                       text-accent hover:bg-accent hover:text-primary transition">
                 Back to Shipments
             </a>
