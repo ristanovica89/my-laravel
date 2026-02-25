@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreShipmentRequest;
 use App\Models\Shipment;
+use App\Models\ShipmentDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -30,9 +31,40 @@ class ShipmentController extends Controller
      */
     public function store(StoreShipmentRequest $request)
     {
-        dd($request->validated());
-        Shipment::create($request->validated());
-        
+
+        $shipment = Shipment::create($request->validated());
+
+        $allowedImageMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+        $allowedDocMimes   = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+
+        foreach ($request->file('documents') as $document) {
+            $mime = $document->getMimeType();
+
+            if (in_array($mime, $allowedImageMimes)) {
+
+                $fileType = 'image';
+            } elseif (in_array($mime, $allowedDocMimes)) {
+
+                $extension = $document->getClientOriginalExtension();
+                $filename = uniqid() . '.' . $extension;
+
+                $path = $document->storeAs('documents/' . $shipment->id, $filename, 'public');
+                $path = str_replace('documents/', '', $path);
+            
+                ShipmentDocument::create([
+                    'shipment_id'  => $shipment->id,
+                    'path'         => $path,
+                    'original_name' => $document->getClientOriginalName(),
+                    'mime_type'    => $document->getMimeType(),
+                    'size'         => $document->getSize(),
+                ]);
+
+            } else {
+                echo 'unsupported';
+            }
+        }
+
+
         Cache::forget('unassignedShipments');
 
         return back()->with('success', 'Successfully created!');
@@ -43,7 +75,9 @@ class ShipmentController extends Controller
      */
     public function show(Shipment $shipment)
     {
-        return view('shipments.show', compact('shipment'));
+
+        $shipment_documents = $shipment->documents()->get();
+        return view('shipments.show', compact('shipment', 'shipment_documents'));
     }
 
     /**
