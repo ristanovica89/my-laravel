@@ -5,30 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreShipmentRequest;
 use App\Models\Shipment;
 use App\Models\ShipmentDocument;
+use App\Traits\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class ShipmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+
+    use ImageUpload;
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('shipments.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreShipmentRequest $request)
     {
 
@@ -42,16 +38,11 @@ class ShipmentController extends Controller
 
             if (in_array($mime, $allowedImageMimes)) {
 
-                $fileType = 'image';
-            } elseif (in_array($mime, $allowedDocMimes)) {
+               $name = $this->uploadImage($document, 'documents/' . $shipment->id);
 
-                $extension = $document->getClientOriginalExtension();
-                $filename = uniqid() . '.' . $extension;
+               $path = $shipment->id . '/' . $name ;
 
-                $path = $document->storeAs('documents/' . $shipment->id, $filename, 'public');
-                $path = str_replace('documents/', '', $path);
-            
-                ShipmentDocument::create([
+               ShipmentDocument::create([
                     'shipment_id'  => $shipment->id,
                     'path'         => $path,
                     'original_name' => $document->getClientOriginalName(),
@@ -59,6 +50,22 @@ class ShipmentController extends Controller
                     'size'         => $document->getSize(),
                 ]);
 
+
+            } elseif (in_array($mime, $allowedDocMimes)) {
+
+                $extension = $document->getClientOriginalExtension();
+                $filename = uniqid() . '.' . $extension;
+
+                $path = $document->storeAs('documents/' . $shipment->id, $filename, 'public');
+                $path = str_replace('documents/', '', $path);
+
+                ShipmentDocument::create([
+                    'shipment_id'  => $shipment->id,
+                    'path'         => $path,
+                    'original_name' => $document->getClientOriginalName(),
+                    'mime_type'    => $document->getMimeType(),
+                    'size'         => $document->getSize(),
+                ]);
             } else {
                 echo 'unsupported';
             }

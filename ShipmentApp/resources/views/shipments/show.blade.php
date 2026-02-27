@@ -15,7 +15,7 @@ $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status]
     <!-- Header -->
     <div class="mb-8 flex justify-between items-center">
         <h1 class="text-3xl font-bold text-white">
-            Shipment Details
+            Shipment Details 
         </h1>
 
         <span class="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-xl font-semibold {{ $statusClasses }}">
@@ -109,7 +109,11 @@ $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status]
                             <!-- File Info -->
                             <div>
                                 <p class="text-gray-200 font-semibold">
-                                    {{ $document->original_name }}
+                                    <a href="/storage/documents/{{ $document->path }}"
+                                    target="_blank"
+                                    class="text-gray-200 font-semibold hover:text-accent transition">
+                                        {{ $document->original_name }}
+                                    </a>
                                 </p>
 
                                 <p class="text-gray-500 text-xs mt-1">{{ $document->file_size_kb }}</p>

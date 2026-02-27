@@ -141,15 +141,6 @@ $statuses = \App\Models\Shipment::STATUSES;
             }
         </script>
 
-        <!-- User ID -->
-        <div>
-            <label class="block text-gray-300 mb-2">User ID</label>
-            <input type="number"
-                name="user_id"
-                value="{{ old('user_id') }}"
-                class="w-full bg-primary border border-gray-600 rounded-lg px-4 py-3 text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent">
-        </div>
-
         <!-- Buttons -->
         <div class="flex flex-wrap justify-between gap-4 mt-6">
 

@@ -24,7 +24,6 @@ class StoreShipmentRequest extends FormRequest
             'price'         => ['required', 'numeric', 'min:0'],
             'status'        => ['required', 'string', Rule::in(Shipment::STATUSES)],
             'details'       => ['nullable', 'string', 'max:1000'],
-            'user_id'       => ['required', 'integer', 'exists:users,id'],
             'documents'     => ['nullable', 'array'],
             'documents.*'   => ['file', 'mimes:jpg,jpeg,webp,png,doc,docx,pdf', 'max:10240'],
         ];
@@ -38,7 +37,6 @@ class StoreShipmentRequest extends FormRequest
             'to_city.required'      => 'To city is required.',
             'price.numeric'         => 'Price must be a valid number.',
             'status.in'             => 'Invalid shipment status.',
-            'user_id.exists'        => 'Selected user does not exist.',
         ];
     }
 }
