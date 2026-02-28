@@ -92,7 +92,8 @@ class ShipmentController extends Controller
      */
     public function edit(Shipment $shipment)
     {
-        //
+        $shipment_documents = $shipment->documents()->get();
+        return view('shipments.edit', compact('shipment', 'shipment_documents'));
     }
 
     /**
@@ -100,7 +101,7 @@ class ShipmentController extends Controller
      */
     public function update(Request $request, Shipment $shipment)
     {
-        //
+        dd($request->all());
     }
 
     /**

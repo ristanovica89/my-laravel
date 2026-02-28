@@ -143,7 +143,7 @@ $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status]
         <!-- Actions -->
         <div class="flex flex-wrap gap-4 justify-between border-t border-gray-700 pt-6">
 
-            <a href="#"
+            <a href="{{ route('shipments.edit', $shipment) }}"
                 class="bg-accent text-primary px-6 py-3 rounded-lg font-semibold 
                       hover:bg-accentSoft transition shadow-lg shadow-accent/30">
                 Edit Shipment
