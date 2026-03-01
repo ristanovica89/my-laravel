@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreShipmentRequest;
+use App\Http\Requests\UpdateShipmentRequest;
 use App\Models\Shipment;
 use App\Models\ShipmentDocument;
 use App\Traits\ImageUpload;
@@ -99,9 +100,13 @@ class ShipmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shipment $shipment)
+    public function update(UpdateShipmentRequest $request, Shipment $shipment)
     {
-        dd($request->all());
+        $shipment->update($request->validated());
+
+        Cache::forget('unassignedShipments');
+        
+        return redirect()->back()->with('success', 'Shipment has been updated successfully');
     }
 
     /**

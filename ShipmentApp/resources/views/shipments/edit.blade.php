@@ -114,6 +114,15 @@ $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status]
           class="w-full bg-primary border border-gray-700 rounded-xl p-4 text-white">{{ old('details', $shipment->details) }}</textarea>
       </div>
 
+      <!-- USER ID -->
+      <div>
+        <label class="block text-gray-400 text-sm mb-2">User Id</label>
+        <input type="number"
+          name="user_id"
+          value="{{ old('user_id', $shipment->user_id) }}"
+          class="w-full bg-primary border border-gray-700 rounded-xl p-4 text-white focus:border-accent">
+      </div>
+
       <!-- EXISTING DOCUMENTS -->
       @if(isset($shipment_documents) && $shipment_documents->count())
       <div class="space-y-4">
