@@ -67,7 +67,7 @@ $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status]
             </div>
 
             <div>
-                <p class="text-gray-400 text-sm mb-1">User ID</p>
+                <p class="text-gray-400 text-sm mb-1">Trucker ID</p>
                 <p class="text-lg text-gray-200">
                     {{ $shipment->user_id }}
                 </p>

@@ -116,7 +116,7 @@ $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status]
 
       <!-- USER ID -->
       <div>
-        <label class="block text-gray-400 text-sm mb-2">User Id</label>
+        <label class="block text-gray-400 text-sm mb-2">Trucker Id</label>
         <input type="number"
           name="user_id"
           value="{{ old('user_id', $shipment->user_id) }}"

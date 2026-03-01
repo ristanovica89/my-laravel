@@ -54,7 +54,7 @@
 
     <!-- Footer -->
     <div class="flex justify-between items-center pt-4 border-t border-gray-700 text-xs text-gray-500">
-        <span>User ID: {{ $shipment->user_id ?? '' }}</span>
+        <span>Trucker ID: {{ $shipment->user_id ?? '' }}</span>
 
         <a href="{{ route('shipments.show', $shipment) }}" class="hover:text-accent transition">
             View Details →
