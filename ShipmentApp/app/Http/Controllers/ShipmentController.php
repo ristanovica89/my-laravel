@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Cache;
 class ShipmentController extends Controller
 {
 
-
     use ImageUpload;
 
     public function index()
@@ -103,7 +102,6 @@ class ShipmentController extends Controller
     public function update(UpdateShipmentRequest $request, Shipment $shipment)
     {
         $shipment->update($request->validated());
-
         Cache::forget('unassignedShipments');
         
         return redirect()->back()->with('success', 'Shipment has been updated successfully');
