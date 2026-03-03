@@ -8,6 +8,7 @@ use App\Models\Shipment;
 use App\Models\ShipmentDocument;
 use App\Traits\ImageUpload;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 
 class ShipmentController extends Controller
 {
@@ -26,6 +27,7 @@ class ShipmentController extends Controller
 
     public function store(StoreShipmentRequest $request)
     {
+        Gate::authorize('create', Shipment::class);
 
         $shipment = Shipment::create($request->validated());
 
@@ -38,7 +40,6 @@ class ShipmentController extends Controller
             if (in_array($mime, $allowedImageMimes)) {
 
                $name = $this->uploadImage($document, 'documents/' . $shipment->id);
-
                $path = $shipment->id . '/' . $name ;
 
                ShipmentDocument::create([
@@ -51,7 +52,6 @@ class ShipmentController extends Controller
 
 
             } elseif (in_array($mime, $allowedDocMimes)) {
-
                 $extension = $document->getClientOriginalExtension();
                 $filename = uniqid() . '.' . $extension;
 
@@ -69,10 +69,7 @@ class ShipmentController extends Controller
                 echo 'unsupported';
             }
         }
-
-
         Cache::forget('unassignedShipments');
-
         return back()->with('success', 'Successfully created!');
     }
 
