@@ -22,6 +22,8 @@ class ShipmentController extends Controller
 
     public function create()
     {
+        Gate::authorize('showIfAdmin', Shipment::class);
+
         return view('shipments.create');
     }
 

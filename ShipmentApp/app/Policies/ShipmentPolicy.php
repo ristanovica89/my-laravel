@@ -63,4 +63,9 @@ class ShipmentPolicy
     {
         return false;
     }
+
+    public function showIfAdmin(User $user): bool
+    {
+        return $user->role === User::ROLE_ADMIN;
+    }
 }
