@@ -31,7 +31,7 @@
 <hr>
 <br>
 <h1 class="text-3xl font-bold mb-8 text-white text-center">
-  Active Shipments
+  Unassigned Shipments
 </h1>
 
 <div class="grid gap-6 

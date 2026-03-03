@@ -57,23 +57,32 @@ $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status]
         </div>
 
         <!-- Price + User -->
-        <div class="grid md:grid-cols-2 gap-8 mb-10">
+<div class="grid md:grid-cols-2 gap-8 mb-10">
 
-            <div>
-                <p class="text-gray-400 text-sm mb-1">Price</p>
-                <p class="text-2xl font-bold text-accent">
-                    ${{ number_format($shipment->price, 2) }}
-                </p>
-            </div>
+    <div>
+        <p class="text-gray-400 text-sm mb-1">Price</p>
+        <p class="text-2xl font-bold text-accent">
+            ${{ number_format($shipment->price, 2) }}
+        </p>
+    </div>
 
-            <div>
-                <p class="text-gray-400 text-sm mb-1">Trucker ID</p>
-                <p class="text-lg text-gray-200">
-                    {{ $shipment->user_id }}
-                </p>
-            </div>
-
+    <div class="grid grid-cols-2 gap-6">
+        <div>
+            <p class="text-gray-400 text-sm mb-2">Trucker ID</p>
+            <p class="text-lg text-gray-200">
+                {{ $shipment->user_id }}
+            </p>
         </div>
+
+        <div>
+            <p class="text-gray-400 text-sm mb-2">Client ID</p>
+            <p class="text-lg text-gray-200">
+                {{ $shipment->client_id }}
+            </p>
+        </div>
+    </div>
+
+</div>
 
         <!-- Details -->
         <div class="mb-10">

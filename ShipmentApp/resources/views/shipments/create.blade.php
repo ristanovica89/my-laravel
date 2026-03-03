@@ -74,6 +74,17 @@ $statuses = \App\Models\Shipment::STATUSES;
                 class="w-full bg-primary border border-gray-600 rounded-lg px-4 py-3 text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent">
         </div>
 
+        <!-- Client Id -->
+
+        <div>
+            <label class="block text-gray-300 mb-2">Client Id</label>
+            <input type="number"
+                name="client_id"
+                step="1"
+                value="{{ old('client_id') }}"
+                class="w-full bg-primary border border-gray-600 rounded-lg px-4 py-3 text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent">
+        </div>
+
         <!-- Status -->
         <div>
             <label class="block text-gray-300 mb-2">Status</label>

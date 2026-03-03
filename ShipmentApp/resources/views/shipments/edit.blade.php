@@ -123,6 +123,15 @@ $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status]
           class="w-full bg-primary border border-gray-700 rounded-xl p-4 text-white focus:border-accent">
       </div>
 
+      <!-- CLIENT ID -->
+      <div>
+        <label class="block text-gray-400 text-sm mb-2">Client Id</label>
+        <input type="number"
+          name="client_id"
+          value="{{ old('client_id', $shipment->client_id) }}"
+          class="w-full bg-primary border border-gray-700 rounded-xl p-4 text-white focus:border-accent">
+      </div>
+
       <!-- EXISTING DOCUMENTS -->
       @if(isset($shipment_documents) && $shipment_documents->count())
       <div class="space-y-4">

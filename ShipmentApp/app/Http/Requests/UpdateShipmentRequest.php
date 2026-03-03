@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Shipment;
 use App\Models\User;
+use App\Rules\UserClient;
 use App\Rules\UserTrucker;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -28,6 +29,7 @@ class UpdateShipmentRequest extends FormRequest
             'status'        => ['required', 'string', Rule::in(Shipment::STATUSES)],
             'details'       => ['nullable', 'string', 'max:1000'],
             'user_id'       => ['required', 'integer', new UserTrucker()],
+            'client_id'     => ['required', 'integer', new UserClient()],
         ];
     }
 }
