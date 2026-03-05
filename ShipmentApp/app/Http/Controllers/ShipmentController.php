@@ -72,7 +72,7 @@ class ShipmentController extends Controller
                 echo 'unsupported';
             }
         }
-        Cache::forget('unassignedShipments');
+        
         return back()->with('success', 'Successfully created!');
     }
 
@@ -105,7 +105,6 @@ class ShipmentController extends Controller
     public function update(UpdateShipmentRequest $request, Shipment $shipment)
     {
         $shipment->update($request->validated());
-        Cache::forget('unassignedShipments');
         
         return redirect()->back()->with('success', 'Shipment has been updated successfully');
     }
@@ -129,8 +128,6 @@ class ShipmentController extends Controller
             'client_id' => $request->user_id,
             'status' => Shipment::STATUS_ACTIVE,
         ]);
-
-        Cache::forget('unassignedShipments');
 
         return back()->with('success','Client has been successfully assigned for shipment of id ' . $shipment->id);
 
