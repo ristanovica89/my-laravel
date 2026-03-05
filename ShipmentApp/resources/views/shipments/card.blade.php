@@ -1,6 +1,6 @@
 @php
-    $status = $shipment->status ?? \App\Models\Shipment::STATUS_UNASSIGNED;
-    $statusClasses = \App\Models\Shipment::STATUS_COLORS[$status] ?? 'bg-gray-500/20 text-gray-400 border border-gray-500/40';
+$status = $shipment->status ?? \App\Models\Shipment::STATUS_UNASSIGNED;
+$statusClasses = \App\Models\Shipment::STATUS_COLORS[$status] ?? 'bg-gray-500/20 text-gray-400 border border-gray-500/40';
 @endphp
 
 <div class="bg-secondary border border-gray-700 rounded-2xl p-6 
@@ -53,12 +53,56 @@
     </div>
 
     <!-- Footer -->
-    <div class="flex justify-between items-center pt-4 border-t border-gray-700 text-xs text-gray-500">
-        <span>Trucker ID: {{ $shipment->user_id ?? '' }}</span>
-        <span>Client ID: {{ $shipment->client_id ?? '' }}</span>
-        <a href="{{ route('shipments.show', $shipment) }}" class="hover:text-accent transition">
-            View Details →
-        </a>
+    <div class="pt-4 border-t border-gray-700 text-xs text-gray-400 space-y-3">
+
+        <!-- Row 1: Trucker + Client ID -->
+        <div class="flex justify-between">
+            <div>
+                <span class="text-gray-500">Trucker ID:</span>
+                <span class="text-gray-200 font-semibold">
+                    {{ $shipment->user_id ?? '—' }}
+                </span>
+            </div>
+
+            <div>
+                <span class="text-gray-500">Client ID:</span>
+                <span class="text-gray-200 font-semibold">
+                    {{ $shipment->client_id ?? '—' }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Row 2: Client Select -->
+        <form action="{{ route('shipments.assignUser', $shipment) }}" method="POST" class="flex gap-2">
+            @csrf
+            @method('PATCH')
+            <select name="user_id"
+                class="flex-1 bg-primary border border-gray-700 rounded-lg px-2 py-1 text-gray-200 text-xs">
+                <option selected disabled>None</option>
+
+                @foreach($users ?? [] as $user)
+                <option value="{{ $user->id }}"
+                    {{ $user->id == $shipment->client_id ? 'selected' : '' }}>
+                    {{ $user->name }} (#{{ $user->id }})
+                </option>
+                @endforeach
+            </select>
+
+            <button type="submit"
+                class="bg-accent text-black text-xs px-3 py-1 rounded-lg hover:bg-accent/80 transition">
+                Assigned
+            </button>
+
+        </form>
+
+        <!-- Row 3: View Details -->
+        <div class="flex justify-end">
+            <a href="{{ route('shipments.show', $shipment) }}"
+                class="hover:text-accent transition font-semibold">
+                View Details →
+            </a>
+        </div>
+
     </div>
 
 </div>

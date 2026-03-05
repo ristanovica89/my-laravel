@@ -21,7 +21,9 @@ class ShipmentPolicy
      */
     public function view(User $user, Shipment $shipment): bool
     {
-        return false;
+
+        return $user->role === User::ROLE_ADMIN
+        || ($user->role === User::ROLE_CLIENT && $user->id === $shipment->client_id);
     }
 
     /**
@@ -64,7 +66,12 @@ class ShipmentPolicy
         return false;
     }
 
-    public function showIfAdmin(User $user): bool
+    public function viewCreate(User $user): bool
+    {
+        return $user->role === User::ROLE_ADMIN;
+    }
+
+    public function viewEdit(User $user): bool
     {
         return $user->role === User::ROLE_ADMIN;
     }

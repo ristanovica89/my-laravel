@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shipment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -22,7 +23,9 @@ class HomepageController extends Controller
             }
         );
             
-        return view('homepage', compact('shipments'));
+        $users = User::where('role', User::ROLE_CLIENT)->get();
+
+        return view('homepage', compact('shipments', 'users'));
     }
     
 }

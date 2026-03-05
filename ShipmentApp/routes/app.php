@@ -11,3 +11,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomepageController::class, 'index'])->name('home.index');
 
 Route::resource('shipments', ShipmentController::class);
+
+Route::patch('/shipments/{shipment}/assignUser', [ShipmentController::class, 'assignUser'])->name('shipments.assignUser');

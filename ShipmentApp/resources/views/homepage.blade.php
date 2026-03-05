@@ -3,7 +3,8 @@
 @section('title', 'Home')
 
 @section('content')
-
+@include('flash-msg.success')
+@include('flash-msg.error')
 <div class="bg-secondary rounded-2xl shadow-2xl shadow-black/40 p-12 text-center border border-gray-800">
 
   <h1 class="text-4xl font-bold mb-6 text-white">

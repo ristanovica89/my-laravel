@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateShipmentRequest;
 use App\Models\Shipment;
 use App\Models\ShipmentDocument;
 use App\Traits\ImageUpload;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
@@ -22,7 +23,7 @@ class ShipmentController extends Controller
 
     public function create()
     {
-        Gate::authorize('showIfAdmin', Shipment::class);
+        Gate::authorize('viewCreate', Shipment::class);
 
         return view('shipments.create');
     }
@@ -80,6 +81,7 @@ class ShipmentController extends Controller
      */
     public function show(Shipment $shipment)
     {
+        Gate::authorize('view', $shipment);
 
         $shipment_documents = $shipment->documents()->get();
         return view('shipments.show', compact('shipment', 'shipment_documents'));
@@ -90,6 +92,9 @@ class ShipmentController extends Controller
      */
     public function edit(Shipment $shipment)
     {
+
+        Gate::authorize('viewEdit', Shipment::class);
+
         $shipment_documents = $shipment->documents()->get();
         return view('shipments.edit', compact('shipment', 'shipment_documents'));
     }
@@ -111,5 +116,23 @@ class ShipmentController extends Controller
     public function destroy(Shipment $shipment)
     {
         //
+    }
+
+    public function assignUser(Shipment $shipment, Request $request)
+    {
+
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $shipment->update([
+            'client_id' => $request->user_id,
+            'status' => Shipment::STATUS_ACTIVE,
+        ]);
+
+        Cache::forget('unassignedShipments');
+
+        return back()->with('success','Client has been successfully assigned for shipment of id ' . $shipment->id);
+
     }
 }
