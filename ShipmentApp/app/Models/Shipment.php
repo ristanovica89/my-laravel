@@ -46,25 +46,6 @@ class Shipment extends Model
         'client_id',
     ];
 
-    public static function booted()
-    {
-        static::created(function($shipment){
-
-            if($shipment->status === self::STATUS_UNASSIGNED){
-                Cache::forget('unassignedShipments');
-            }
-            
-        });
-
-        static::updated(function($shipment){
-            Cache::forget('unassignedShipments');
-        });
-
-        static::deleted(function($shipment){
-            Cache::forget('unassignedShipments');
-        });
-    }
-
     public function setStatusAttribute($status): void
     {
         $status = strtolower(trim($status));
