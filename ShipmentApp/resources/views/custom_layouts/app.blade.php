@@ -22,6 +22,7 @@
             }
         }
     </script>
+    @livewireStyles
 </head>
 <body class="bg-primary text-gray-200 flex flex-col min-h-screen">
 
@@ -33,5 +34,6 @@
 
     @include('partials.footer')
 
+    @livewireScripts
 </body>
 </html>
